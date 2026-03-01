@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import DeckGL from '@deck.gl/react';
-import { ArcLayer, ScatterplotLayer, TextLayer, PolygonLayer } from '@deck.gl/layers';
+import { ArcLayer, ScatterplotLayer, TextLayer, PolygonLayer, IconLayer } from '@deck.gl/layers';
 import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 import Map from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -27,6 +27,42 @@ import {
 import { MAP_STORIES, type MapStory, type StoryEvent } from '@/data/mapStories';
 import StoryIcon from '@/components/dashboard/StoryIcon';
 import StoryTimeline from '@/components/dashboard/StoryTimeline';
+
+// ---------------------------------------------------------------------------
+// Bearing / midpoint utilities
+// ---------------------------------------------------------------------------
+
+/** Geodesic bearing in degrees (0=N, 90=E, 180=S, 270=W) */
+function bearingDeg(from: [number, number], to: [number, number]): number {
+  const dLon = ((to[0] - from[0]) * Math.PI) / 180;
+  const lat1 = (from[1] * Math.PI) / 180;
+  const lat2 = (to[1] * Math.PI) / 180;
+  const y = Math.sin(dLon) * Math.cos(lat2);
+  const x =
+    Math.cos(lat1) * Math.sin(lat2) -
+    Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+  return (Math.atan2(y, x) * 180) / Math.PI;
+}
+
+/** Simple midpoint between two lon/lat points */
+function midpoint(from: [number, number], to: [number, number]): [number, number] {
+  return [(from[0] + to[0]) / 2, (from[1] + to[1]) / 2];
+}
+
+// ---------------------------------------------------------------------------
+// Arrowhead SVG data URI
+// ---------------------------------------------------------------------------
+
+// Arrowhead SVG — points upward (north), will be rotated by getAngle
+// anchorY=20 means the base of the arrow is the anchor point
+const ARROW_SVG = encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+    <polygon points="10,0 20,20 10,14 0,20" fill="white"/>
+  </svg>`
+);
+const ARROW_URL = `data:image/svg+xml;charset=utf-8,${ARROW_SVG}`;
+
+// ---------------------------------------------------------------------------
 
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 
@@ -294,7 +330,7 @@ export default function FullMapPage() {
     return baseColor;
   };
 
-  const layers = [
+  const layers = useMemo(() => [
     visibility.heat &&
       new HeatmapLayer<HeatPoint>({
         id: 'heat',
@@ -349,8 +385,8 @@ export default function FullMapPage() {
         pickable: true,
         autoHighlight: true,
         updateTriggers: {
-          getSourceColor: [dimActive, activeStory?.id],
-          getTargetColor: [dimActive, activeStory?.id],
+          getSourceColor: activeStory ? [activeStory.id] : [],
+          getTargetColor: activeStory ? [activeStory.id] : [],
         },
       }),
 
@@ -367,8 +403,8 @@ export default function FullMapPage() {
         pickable: true,
         autoHighlight: true,
         updateTriggers: {
-          getSourceColor: [dimActive, activeStory?.id],
-          getTargetColor: [dimActive, activeStory?.id],
+          getSourceColor: activeStory ? [activeStory.id] : [],
+          getTargetColor: activeStory ? [activeStory.id] : [],
         },
       }),
 
@@ -386,7 +422,8 @@ export default function FullMapPage() {
         pickable: true,
         autoHighlight: true,
         updateTriggers: {
-          getFillColor: [dimActive, activeStory?.id],
+          getFillColor: activeStory ? [activeStory.id] : [],
+          getLineColor: activeStory ? [activeStory.id] : [],
         },
       }),
 
@@ -403,7 +440,8 @@ export default function FullMapPage() {
         pickable: true,
         autoHighlight: true,
         updateTriggers: {
-          getFillColor: [dimActive, activeStory?.id],
+          getFillColor: activeStory ? [activeStory.id] : [],
+          getLineColor: activeStory ? [activeStory.id] : [],
         },
       }),
 
@@ -436,9 +474,64 @@ export default function FullMapPage() {
         getBackgroundColor: (): [number, number, number, number] => [28, 33, 39, 200],
         backgroundPadding: [3, 2, 3, 2] as [number, number, number, number],
       }),
-  ].filter(Boolean);
 
-  const getTooltip = ({ object, layer }: PickingInfo<TooltipObject>) => {
+    // Strike arrowheads (at midpoint of each strike arc, colored by type)
+    visibility.strikes &&
+      new IconLayer<StrikeArc>({
+        id: 'strike-arrows',
+        data: STRIKE_ARCS,
+        getPosition: (d) => midpoint(d.from, d.to),
+        getIcon: () => ({
+          url: ARROW_URL,
+          width: 20,
+          height: 20,
+          anchorX: 10,
+          anchorY: 20,
+        }),
+        getAngle: (d): number => -bearingDeg(d.from, d.to),
+        getSize: (d) => (d.severity === 'CRITICAL' ? 14 : 10),
+        getColor: (d): [number, number, number, number] =>
+          d.type === 'NAVAL'
+            ? [50, 200, 200, 220]
+            : d.type === 'ISRAEL_STRIKE'
+            ? [50, 200, 120, 220]
+            : [45, 114, 210, 220],
+        sizeScale: 1,
+        sizeUnits: 'pixels',
+        billboard: true,
+        pickable: false,
+        updateTriggers: { getColor: activeStory ? [activeStory.id] : [] },
+      }),
+
+    // Missile arrowheads (at midpoint of each missile track, red/yellow by intercept)
+    visibility.missiles &&
+      new IconLayer<MissileTrack>({
+        id: 'missile-arrows',
+        data: MISSILE_TRACKS,
+        getPosition: (d) => midpoint(d.from, d.to),
+        getIcon: () => ({
+          url: ARROW_URL,
+          width: 20,
+          height: 20,
+          anchorX: 10,
+          anchorY: 20,
+        }),
+        getAngle: (d): number => -bearingDeg(d.from, d.to),
+        getSize: (d) => (d.severity === 'CRITICAL' ? 14 : 10),
+        getColor: (d): [number, number, number, number] =>
+          d.intercepted ? [255, 200, 0, 200] : [255, 50, 50, 220],
+        sizeScale: 1,
+        sizeUnits: 'pixels',
+        billboard: true,
+        pickable: false,
+        updateTriggers: { getColor: activeStory ? [activeStory.id] : [] },
+      }),
+
+  ].filter(Boolean), [visibility, activeStory, dimActive,
+    getStrikeColor, getMissileSourceColor, getMissileTargetColor,
+    getTargetFillColor, getAssetFillColor]);
+
+  const getTooltip = useCallback(({ object, layer }: PickingInfo<TooltipObject>) => {
     if (!object) return null;
     const layerId = layer?.id ?? '';
     let html = '';
@@ -509,7 +602,7 @@ export default function FullMapPage() {
       html: `<div style="background:#1C2127;border:1px solid #404854;padding:8px 10px;font-family:monospace;max-width:260px;border-radius:2px">${html}</div>`,
       style: { backgroundColor: 'transparent', border: 'none', padding: '0' },
     };
-  };
+  }, []);
 
   const buttonConfig: Array<{
     key: keyof LayerVisibility;
@@ -688,7 +781,7 @@ export default function FullMapPage() {
           getTooltip={getTooltip as (info: PickingInfo) => ReturnType<typeof getTooltip>}
           style={{ width: '100%', height: '100%' }}
         >
-          <Map mapStyle={MAP_STYLE} attributionControl={false} />
+          <Map mapStyle={MAP_STYLE} />
         </DeckGL>
 
         {/* Back button — top left */}
@@ -826,7 +919,7 @@ export default function FullMapPage() {
           ))}
         </div>
 
-        {/* Coords + attribution — bottom right */}
+        {/* Coords — bottom right */}
         <div
           style={{
             position: 'absolute',
@@ -839,14 +932,9 @@ export default function FullMapPage() {
             fontFamily: 'monospace',
             color: '#5C7080',
             pointerEvents: 'none',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 3,
-            alignItems: 'flex-end',
           }}
         >
-          <span>{viewState.latitude.toFixed(2)}°N {viewState.longitude.toFixed(2)}°E</span>
-          <span style={{ color: '#2A2F38', fontSize: 8 }}>© CARTO · © OpenStreetMap contributors</span>
+          {viewState.latitude.toFixed(2)}°N {viewState.longitude.toFixed(2)}°E
         </div>
       </div>
     </div>
