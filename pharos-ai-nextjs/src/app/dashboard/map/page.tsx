@@ -43,8 +43,42 @@ const SATELLITE_STYLE: StyleSpecification = {
       maxzoom: 19,
       attribution: '© Esri, Maxar, Earthstar Geographics',
     },
+    // World-covering polygon for the dark tint overlay
+    'dark-overlay-src': {
+      type: 'geojson',
+      data: {
+        type: 'Feature',
+        geometry: {
+          type: 'Polygon',
+          coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
+        },
+        properties: {},
+      },
+    },
   },
-  layers: [{ id: 'esri-satellite', type: 'raster', source: 'esri' }],
+  layers: [
+    {
+      id: 'esri-satellite',
+      type: 'raster',
+      source: 'esri',
+      paint: {
+        // Knock the brightness down to ~65% — keeps terrain readable, kills the washed-out look
+        'raster-brightness-max': 0.65,
+        // Slightly desaturate so colours don't compete with our intel overlays
+        'raster-saturation': -0.2,
+      },
+    },
+    {
+      // Dark blue tint over the whole world — pulls imagery toward Palantir slate palette
+      id: 'dark-overlay',
+      type: 'fill',
+      source: 'dark-overlay-src',
+      paint: {
+        'fill-color': '#000814',
+        'fill-opacity': 0.38,
+      },
+    },
+  ],
 };
 
 const INITIAL_VIEW_STATE: MapViewState = {
@@ -286,35 +320,52 @@ export default function FullMapPage() {
   const dimActive = activeStory !== null;
 
   const layers = useMemo(() => {
+    const isSatellite = mapStyleMode === 'satellite';
+
+    // In satellite mode we push opacity to max and widen strokes so intel
+    // overlays cut through the terrain imagery cleanly.
+    const arcWidth = (base: number) => (isSatellite ? base + 1 : base);
+    const scatterLine = (): [number, number, number, number] =>
+      isSatellite ? [255, 255, 255, 220] : [255, 255, 255, 100];
+    const labelColor = (): [number, number, number, number] =>
+      isSatellite ? [255, 255, 255, 240] : [220, 220, 220, 200];
+    const labelBg = (): [number, number, number, number] =>
+      isSatellite ? [10, 14, 22, 230] : [28, 33, 39, 200];
+    const assetLabelColor = (): [number, number, number, number] =>
+      isSatellite ? [130, 210, 255, 255] : [150, 200, 255, 200];
+
+    // In satellite mode push active-layer alphas to full so they cut through terrain.
+    const activeAlpha = isSatellite ? 255 : 220;
+
     // Color getters defined inside useMemo so they never cause
     // stale-closure / new-reference churn that triggers infinite re-renders.
     const strikeColor = (d: StrikeArc): [number, number, number, number] => {
       if (dimActive && !activeStory!.highlightStrikeIds.includes(d.id))
         return [45, 114, 210, 40];
       return d.type === 'NAVAL'
-        ? [50, 200, 200, 220]
+        ? [50, 200, 200, activeAlpha]
         : d.type === 'ISRAEL_STRIKE'
-        ? [50, 200, 120, 220]
-        : [45, 114, 210, 220];
+        ? [50, 200, 120, activeAlpha]
+        : [45, 114, 210, activeAlpha];
     };
 
     const missileSourceColor = (d: MissileTrack): [number, number, number, number] => {
       if (dimActive && !activeStory!.highlightMissileIds.includes(d.id))
         return [210, 50, 50, 30];
-      return [210, 50, 50, 220];
+      return [210, 50, 50, activeAlpha];
     };
 
     const missileTargetColor = (d: MissileTrack): [number, number, number, number] => {
       if (dimActive && !activeStory!.highlightMissileIds.includes(d.id))
         return [210, 50, 50, 30];
-      return d.intercepted ? [255, 200, 0, 200] : [255, 50, 50, 220];
+      return d.intercepted ? [255, 200, 0, activeAlpha] : [255, 50, 50, activeAlpha];
     };
 
     const targetFillColor = (d: Target): [number, number, number, number] => {
       const base: [number, number, number, number] =
-        d.status === 'DESTROYED' ? [220, 50, 50, 200]
-        : d.status === 'DAMAGED' ? [220, 150, 50, 200]
-        : [220, 200, 50, 200];
+        d.status === 'DESTROYED' ? [220, 50, 50, activeAlpha]
+        : d.status === 'DAMAGED' ? [220, 150, 50, activeAlpha]
+        : [220, 200, 50, activeAlpha];
       if (dimActive && !activeStory!.highlightTargetIds.includes(d.id))
         return [base[0], base[1], base[2], 40];
       return base;
@@ -322,9 +373,9 @@ export default function FullMapPage() {
 
     const assetFillColor = (d: Asset): [number, number, number, number] => {
       const base: [number, number, number, number] =
-        d.nation === 'US'   ? [45, 114, 210, 220]
-        : d.nation === 'NATO' ? [160, 100, 220, 220]
-        : [50, 200, 200, 220];
+        d.nation === 'US'   ? [45, 114, 210, activeAlpha]
+        : d.nation === 'NATO' ? [160, 100, 220, activeAlpha]
+        : [50, 200, 200, activeAlpha];
       if (dimActive && !activeStory!.highlightAssetIds.includes(d.id))
         return [base[0], base[1], base[2], 40];
       return base;
@@ -379,14 +430,15 @@ export default function FullMapPage() {
         getTargetColor: (d: StrikeArc): [number, number, number, number] =>
           dimActive && !activeStory!.highlightStrikeIds.includes(d.id)
             ? [255, 255, 255, 30]
-            : [255, 255, 255, 180],
-        getWidth: (d: StrikeArc): number => (d.severity === 'CRITICAL' ? 3 : 2),
+            : isSatellite ? [255, 255, 255, 230] : [255, 255, 255, 180],
+        getWidth: (d: StrikeArc): number => arcWidth(d.severity === 'CRITICAL' ? 3 : 2),
         widthUnits: 'pixels',
         pickable: true,
         autoHighlight: true,
         updateTriggers: {
-          getSourceColor: activeStory ? [activeStory.id] : [],
-          getTargetColor: activeStory ? [activeStory.id] : [],
+          getSourceColor: [activeStory?.id, isSatellite],
+          getTargetColor: [activeStory?.id, isSatellite],
+          getWidth: [isSatellite],
         },
       }),
 
@@ -398,13 +450,14 @@ export default function FullMapPage() {
         getTargetPosition: (d: MissileTrack): [number, number] => d.to,
         getSourceColor: missileSourceColor,
         getTargetColor: missileTargetColor,
-        getWidth: (d: MissileTrack): number => (d.severity === 'CRITICAL' ? 3 : 2),
+        getWidth: (d: MissileTrack): number => arcWidth(d.severity === 'CRITICAL' ? 3 : 2),
         widthUnits: 'pixels',
         pickable: true,
         autoHighlight: true,
         updateTriggers: {
-          getSourceColor: activeStory ? [activeStory.id] : [],
-          getTargetColor: activeStory ? [activeStory.id] : [],
+          getSourceColor: [activeStory?.id, isSatellite],
+          getTargetColor: [activeStory?.id, isSatellite],
+          getWidth: [isSatellite],
         },
       }),
 
@@ -417,13 +470,13 @@ export default function FullMapPage() {
           d.status === 'DESTROYED' ? 18000 : d.status === 'DAMAGED' ? 14000 : 10000,
         getFillColor: targetFillColor,
         stroked: true,
-        getLineColor: (): [number, number, number, number] => [255, 255, 255, 100],
-        lineWidthMinPixels: 1,
+        getLineColor: scatterLine,
+        lineWidthMinPixels: isSatellite ? 2 : 1,
         pickable: true,
         autoHighlight: true,
         updateTriggers: {
-          getFillColor: activeStory ? [activeStory.id] : [],
-          getLineColor: activeStory ? [activeStory.id] : [],
+          getFillColor: [activeStory?.id, isSatellite],
+          getLineColor: [isSatellite],
         },
       }),
 
@@ -435,13 +488,13 @@ export default function FullMapPage() {
         getRadius: (d: Asset): number => (d.type === 'CARRIER' ? 20000 : 14000),
         getFillColor: assetFillColor,
         stroked: true,
-        getLineColor: (): [number, number, number, number] => [255, 255, 255, 150],
-        lineWidthMinPixels: 1,
+        getLineColor: scatterLine,
+        lineWidthMinPixels: isSatellite ? 2 : 1,
         pickable: true,
         autoHighlight: true,
         updateTriggers: {
-          getFillColor: activeStory ? [activeStory.id] : [],
-          getLineColor: activeStory ? [activeStory.id] : [],
+          getFillColor: [activeStory?.id, isSatellite],
+          getLineColor: [isSatellite],
         },
       }),
 
@@ -451,15 +504,20 @@ export default function FullMapPage() {
         data: TARGETS,
         getPosition: (d: Target): [number, number] => d.position,
         getText: (d: Target): string => d.name,
-        getSize: 11,
-        getColor: (): [number, number, number, number] => [220, 220, 220, 200],
+        getSize: isSatellite ? 12 : 11,
+        getColor: labelColor,
         getPixelOffset: (): [number, number] => [0, -20],
         fontFamily: 'SFMono-Regular, Menlo, monospace',
+        fontWeight: isSatellite ? 700 : 400,
         background: true,
-        getBackgroundColor: (): [number, number, number, number] => [28, 33, 39, 200],
-        backgroundPadding: [3, 2, 3, 2] as [number, number, number, number],
+        getBackgroundColor: labelBg,
+        backgroundPadding: [4, 3, 4, 3] as [number, number, number, number],
         pickable: true,
         autoHighlight: true,
+        updateTriggers: {
+          getColor: [isSatellite],
+          getBackgroundColor: [isSatellite],
+        },
       }),
 
     visibility.assets &&
@@ -468,20 +526,25 @@ export default function FullMapPage() {
         data: ALLIED_ASSETS,
         getPosition: (d: Asset): [number, number] => d.position,
         getText: (d: Asset): string => d.name,
-        getSize: 10,
-        getColor: (): [number, number, number, number] => [150, 200, 255, 200],
+        getSize: isSatellite ? 11 : 10,
+        getColor: assetLabelColor,
         getPixelOffset: (): [number, number] => [0, -22],
         fontFamily: 'SFMono-Regular, Menlo, monospace',
+        fontWeight: isSatellite ? 700 : 400,
         background: true,
-        getBackgroundColor: (): [number, number, number, number] => [28, 33, 39, 200],
-        backgroundPadding: [3, 2, 3, 2] as [number, number, number, number],
+        getBackgroundColor: labelBg,
+        backgroundPadding: [4, 3, 4, 3] as [number, number, number, number],
         pickable: true,
         autoHighlight: true,
+        updateTriggers: {
+          getColor: [isSatellite],
+          getBackgroundColor: [isSatellite],
+        },
       }),
 
 
     ].filter(Boolean);
-  }, [visibility, activeStory, dimActive]);
+  }, [visibility, activeStory, dimActive, mapStyleMode]);
 
   const getTooltip = useCallback(({ object, layer }: PickingInfo<TooltipObject>) => {
     if (!object) return null;
