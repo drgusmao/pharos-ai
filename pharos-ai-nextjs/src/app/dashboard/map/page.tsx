@@ -232,7 +232,7 @@ export default function FullMapPage() {
     setVisibility((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const activateStory = (story: MapStory) => {
+  const activateStory = useCallback((story: MapStory) => {
     setActiveStory(story);
     setViewState((prev) => ({
       ...prev,
@@ -241,11 +241,11 @@ export default function FullMapPage() {
       zoom: story.viewState.zoom,
       transitionDuration: 1200,
     }));
-  };
+  }, []);
 
-  const clearStory = () => {
+  const clearStory = useCallback(() => {
     setActiveStory(null);
-  };
+  }, []);
 
   const handleMapClick = useCallback(({ object, layer }: PickingInfo) => {
     if (!object || !layer) {
@@ -264,61 +264,57 @@ export default function FullMapPage() {
   const handleStoryActivateFromPanel = useCallback((story: MapStory) => {
     setOpenStoryId(story.id);
     activateStory(story);
-  }, []);  // eslint-disable-line react-hooks/exhaustive-deps
+  }, [activateStory]);
 
   // Helper: is dim mode active?
   const dimActive = activeStory !== null;
 
-  const getStrikeColor = (d: StrikeArc): [number, number, number, number] => {
-    if (dimActive && !activeStory!.highlightStrikeIds.includes(d.id)) {
-      return [45, 114, 210, 40];
-    }
-    return d.type === 'NAVAL'
-      ? [50, 200, 200, 220]
-      : d.type === 'ISRAEL_STRIKE'
-      ? [50, 200, 120, 220]
-      : [45, 114, 210, 220];
-  };
+  const layers = useMemo(() => {
+    // Color getters defined inside useMemo so they never cause
+    // stale-closure / new-reference churn that triggers infinite re-renders.
+    const strikeColor = (d: StrikeArc): [number, number, number, number] => {
+      if (dimActive && !activeStory!.highlightStrikeIds.includes(d.id))
+        return [45, 114, 210, 40];
+      return d.type === 'NAVAL'
+        ? [50, 200, 200, 220]
+        : d.type === 'ISRAEL_STRIKE'
+        ? [50, 200, 120, 220]
+        : [45, 114, 210, 220];
+    };
 
-  const getMissileSourceColor = (d: MissileTrack): [number, number, number, number] => {
-    if (dimActive && !activeStory!.highlightMissileIds.includes(d.id)) {
-      return [210, 50, 50, 30];
-    }
-    return [210, 50, 50, 220];
-  };
+    const missileSourceColor = (d: MissileTrack): [number, number, number, number] => {
+      if (dimActive && !activeStory!.highlightMissileIds.includes(d.id))
+        return [210, 50, 50, 30];
+      return [210, 50, 50, 220];
+    };
 
-  const getMissileTargetColor = (d: MissileTrack): [number, number, number, number] => {
-    if (dimActive && !activeStory!.highlightMissileIds.includes(d.id)) {
-      return [210, 50, 50, 30];
-    }
-    return d.intercepted ? [255, 200, 0, 200] : [255, 50, 50, 220];
-  };
+    const missileTargetColor = (d: MissileTrack): [number, number, number, number] => {
+      if (dimActive && !activeStory!.highlightMissileIds.includes(d.id))
+        return [210, 50, 50, 30];
+      return d.intercepted ? [255, 200, 0, 200] : [255, 50, 50, 220];
+    };
 
-  const getTargetFillColor = (d: Target): [number, number, number, number] => {
-    const baseColor: [number, number, number, number] =
-      d.status === 'DESTROYED'
-        ? [220, 50, 50, 200]
-        : d.status === 'DAMAGED'
-        ? [220, 150, 50, 200]
+    const targetFillColor = (d: Target): [number, number, number, number] => {
+      const base: [number, number, number, number] =
+        d.status === 'DESTROYED' ? [220, 50, 50, 200]
+        : d.status === 'DAMAGED' ? [220, 150, 50, 200]
         : [220, 200, 50, 200];
-    if (dimActive && !activeStory!.highlightTargetIds.includes(d.id)) {
-      return [baseColor[0], baseColor[1], baseColor[2], 40];
-    }
-    return baseColor;
-  };
+      if (dimActive && !activeStory!.highlightTargetIds.includes(d.id))
+        return [base[0], base[1], base[2], 40];
+      return base;
+    };
 
-  const getAssetFillColor = (d: Asset): [number, number, number, number] => {
-    const baseColor: [number, number, number, number] =
-      d.nation === 'US'   ? [45, 114, 210, 220]
-      : d.nation === 'NATO' ? [160, 100, 220, 220]
-      : [50, 200, 200, 220];
-    if (dimActive && !activeStory!.highlightAssetIds.includes(d.id)) {
-      return [baseColor[0], baseColor[1], baseColor[2], 40];
-    }
-    return baseColor;
-  };
+    const assetFillColor = (d: Asset): [number, number, number, number] => {
+      const base: [number, number, number, number] =
+        d.nation === 'US'   ? [45, 114, 210, 220]
+        : d.nation === 'NATO' ? [160, 100, 220, 220]
+        : [50, 200, 200, 220];
+      if (dimActive && !activeStory!.highlightAssetIds.includes(d.id))
+        return [base[0], base[1], base[2], 40];
+      return base;
+    };
 
-  const layers = useMemo(() => [
+    return [
     visibility.heat &&
       new HeatmapLayer<HeatPoint>({
         id: 'heat',
@@ -363,7 +359,7 @@ export default function FullMapPage() {
         data: STRIKE_ARCS,
         getSourcePosition: (d: StrikeArc): [number, number] => d.from,
         getTargetPosition: (d: StrikeArc): [number, number] => d.to,
-        getSourceColor: getStrikeColor,
+        getSourceColor: strikeColor,
         getTargetColor: (d: StrikeArc): [number, number, number, number] =>
           dimActive && !activeStory!.highlightStrikeIds.includes(d.id)
             ? [255, 255, 255, 30]
@@ -384,8 +380,8 @@ export default function FullMapPage() {
         data: MISSILE_TRACKS,
         getSourcePosition: (d: MissileTrack): [number, number] => d.from,
         getTargetPosition: (d: MissileTrack): [number, number] => d.to,
-        getSourceColor: getMissileSourceColor,
-        getTargetColor: getMissileTargetColor,
+        getSourceColor: missileSourceColor,
+        getTargetColor: missileTargetColor,
         getWidth: (d: MissileTrack): number => (d.severity === 'CRITICAL' ? 3 : 2),
         widthUnits: 'pixels',
         pickable: true,
@@ -403,7 +399,7 @@ export default function FullMapPage() {
         getPosition: (d: Target): [number, number] => d.position,
         getRadius: (d: Target): number =>
           d.status === 'DESTROYED' ? 18000 : d.status === 'DAMAGED' ? 14000 : 10000,
-        getFillColor: getTargetFillColor,
+        getFillColor: targetFillColor,
         stroked: true,
         getLineColor: (): [number, number, number, number] => [255, 255, 255, 100],
         lineWidthMinPixels: 1,
@@ -421,7 +417,7 @@ export default function FullMapPage() {
         data: ALLIED_ASSETS,
         getPosition: (d: Asset): [number, number] => d.position,
         getRadius: (d: Asset): number => (d.type === 'CARRIER' ? 20000 : 14000),
-        getFillColor: getAssetFillColor,
+        getFillColor: assetFillColor,
         stroked: true,
         getLineColor: (): [number, number, number, number] => [255, 255, 255, 150],
         lineWidthMinPixels: 1,
@@ -468,9 +464,8 @@ export default function FullMapPage() {
       }),
 
 
-  ].filter(Boolean), [visibility, activeStory, dimActive,
-    getStrikeColor, getMissileSourceColor, getMissileTargetColor,
-    getTargetFillColor, getAssetFillColor]);
+    ].filter(Boolean);
+  }, [visibility, activeStory, dimActive]);
 
   const getTooltip = useCallback(({ object, layer }: PickingInfo<TooltipObject>) => {
     if (!object) return null;
