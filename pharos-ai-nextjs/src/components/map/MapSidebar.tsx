@@ -41,13 +41,11 @@ export default function MapSidebar({ isOpen, activeStory, onToggle, onActivateSt
 
   return (
     <div style={{
-      width:         320,
-      flexShrink:    0,
       display:       'flex',
       flexDirection: 'column',
       background:    'var(--bg-app)',
-      borderRight:   '1px solid var(--bd)',
       overflow:      'hidden',
+      height:        '100%',
     }}>
       {/* Header */}
       <div className="panel-header">

@@ -1,0 +1,134 @@
+/**
+ * PHAROS — RSS News Feeds
+ * 30 curated feeds from major global news sources + conflict-specific collections.
+ */
+
+export interface RssFeed {
+  id: string;
+  name: string;
+  url: string;
+  /** Bias/perspective label */
+  perspective: 'WESTERN' | 'US_GOV' | 'ISRAELI' | 'IRANIAN' | 'ARAB' | 'RUSSIAN' | 'CHINESE' | 'INDEPENDENT' | 'INTL_ORG';
+  /** Country of origin */
+  country: string;
+  /** Tags for filtering */
+  tags: string[];
+  /** Whether this is a state-funded outlet */
+  stateFunded?: boolean;
+}
+
+export interface ConflictCollection {
+  id: string;
+  name: string;
+  description: string;
+  /** The 4 key channels for this conflict */
+  channels: ConflictChannel[];
+}
+
+export interface ConflictChannel {
+  label: string;
+  description: string;
+  perspective: string;
+  feedIds: string[];
+  color: string;
+}
+
+// ─── ALL FEEDS (30) ───────────────────────────────────────────
+
+export const RSS_FEEDS: RssFeed[] = [
+  // ── US / Western mainstream ──
+  { id: 'reuters',       name: 'Reuters',              url: 'https://www.reutersagency.com/feed/',                perspective: 'WESTERN',     country: 'UK/US',     tags: ['world', 'wire'] },
+  { id: 'ap',            name: 'Associated Press',     url: 'https://feedx.net/rss/ap.xml',                      perspective: 'WESTERN',     country: 'US',        tags: ['world', 'wire'] },
+  { id: 'bbc',           name: 'BBC World',            url: 'https://feeds.bbci.co.uk/news/world/rss.xml',       perspective: 'WESTERN',     country: 'UK',        tags: ['world'] },
+  { id: 'nyt',           name: 'New York Times',       url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml', perspective: 'WESTERN', country: 'US',        tags: ['world'] },
+  { id: 'wapo',          name: 'Washington Post',      url: 'https://feeds.washingtonpost.com/rss/world',        perspective: 'WESTERN',     country: 'US',        tags: ['world'] },
+  { id: 'guardian',      name: 'The Guardian',         url: 'https://www.theguardian.com/world/rss',             perspective: 'WESTERN',     country: 'UK',        tags: ['world'] },
+  { id: 'cnn',           name: 'CNN World',            url: 'http://rss.cnn.com/rss/edition_world.rss',          perspective: 'WESTERN',     country: 'US',        tags: ['world'] },
+  { id: 'fox',           name: 'Fox News World',       url: 'https://moxie.foxnews.com/google-publisher/world.xml', perspective: 'WESTERN',  country: 'US',        tags: ['world', 'conservative'] },
+  { id: 'ft',            name: 'Financial Times',      url: 'https://www.ft.com/world?format=rss',               perspective: 'WESTERN',     country: 'UK',        tags: ['world', 'finance'] },
+  { id: 'dw',            name: 'Deutsche Welle',       url: 'https://rss.dw.com/xml/rss-en-world',               perspective: 'WESTERN',     country: 'Germany',   tags: ['world'] },
+
+  // ── US Government / Military ──
+  { id: 'dod',           name: 'US Dept of Defense',   url: 'https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=945&max=10', perspective: 'US_GOV', country: 'US', tags: ['military', 'official'] },
+  { id: 'centcom',       name: 'CENTCOM News',         url: 'https://www.centcom.mil/RSS/', perspective: 'US_GOV', country: 'US', tags: ['military', 'official', 'mideast'] },
+
+  // ── Israeli media ──
+  { id: 'timesofisrael', name: 'Times of Israel',      url: 'https://www.timesofisrael.com/feed/',               perspective: 'ISRAELI',     country: 'Israel',    tags: ['israel', 'mideast'] },
+  { id: 'jpost',         name: 'Jerusalem Post',       url: 'https://www.jpost.com/rss/rssfeedsfrontpage.aspx',  perspective: 'ISRAELI',     country: 'Israel',    tags: ['israel', 'mideast'] },
+  { id: 'haaretz',       name: 'Haaretz',              url: 'https://www.haaretz.com/cmlink/1.628765',           perspective: 'ISRAELI',     country: 'Israel',    tags: ['israel', 'mideast', 'liberal'] },
+  { id: 'i24',           name: 'i24NEWS',              url: 'https://www.i24news.tv/en/rss',                     perspective: 'ISRAELI',     country: 'Israel',    tags: ['israel', 'mideast'] },
+
+  // ── Iranian state / aligned media ──
+  { id: 'presstv',       name: 'Press TV',             url: 'https://www.presstv.ir/RSS',                        perspective: 'IRANIAN',     country: 'Iran',      tags: ['iran', 'mideast'], stateFunded: true },
+  { id: 'irna',          name: 'IRNA',                 url: 'https://en.irna.ir/rss',                            perspective: 'IRANIAN',     country: 'Iran',      tags: ['iran', 'mideast', 'official'], stateFunded: true },
+  { id: 'tehrantimes',   name: 'Tehran Times',         url: 'https://www.tehrantimes.com/rss',                   perspective: 'IRANIAN',     country: 'Iran',      tags: ['iran', 'mideast'], stateFunded: true },
+  { id: 'tasnim',        name: 'Tasnim News',          url: 'https://www.tasnimnews.com/en/rss',                 perspective: 'IRANIAN',     country: 'Iran',      tags: ['iran', 'mideast', 'irgc'] },
+
+  // ── Arab / Middle East ──
+  { id: 'aljazeera',     name: 'Al Jazeera',           url: 'https://www.aljazeera.com/xml/rss/all.xml',         perspective: 'ARAB',        country: 'Qatar',     tags: ['world', 'mideast'], stateFunded: true },
+  { id: 'alarabiya',     name: 'Al Arabiya',           url: 'https://english.alarabiya.net/tools/rss',           perspective: 'ARAB',        country: 'Saudi Arabia', tags: ['mideast'], stateFunded: true },
+  { id: 'middleeasteye', name: 'Middle East Eye',      url: 'https://www.middleeasteye.net/rss',                 perspective: 'ARAB',        country: 'UK',        tags: ['mideast'] },
+
+  // ── Russian ──
+  { id: 'rt',            name: 'RT (Russia Today)',    url: 'https://www.rt.com/rss/news/',                      perspective: 'RUSSIAN',     country: 'Russia',    tags: ['world'], stateFunded: true },
+  { id: 'tass',          name: 'TASS',                 url: 'https://tass.com/rss/v2.xml',                       perspective: 'RUSSIAN',     country: 'Russia',    tags: ['world', 'official'], stateFunded: true },
+
+  // ── Chinese ──
+  { id: 'xinhua',        name: 'Xinhua',               url: 'https://www.xinhuanet.com/english/rss/worldrss.xml', perspective: 'CHINESE',    country: 'China',     tags: ['world'], stateFunded: true },
+  { id: 'scmp',          name: 'South China Morning Post', url: 'https://www.scmp.com/rss/91/feed',              perspective: 'CHINESE',     country: 'Hong Kong', tags: ['world', 'asia'] },
+
+  // ── Independent / analysis ──
+  { id: 'theintercept',  name: 'The Intercept',        url: 'https://theintercept.com/feed/?rss',                perspective: 'INDEPENDENT', country: 'US',        tags: ['investigative'] },
+  { id: 'foreignpolicy', name: 'Foreign Policy',       url: 'https://foreignpolicy.com/feed/',                   perspective: 'INDEPENDENT', country: 'US',        tags: ['analysis', 'geopolitics'] },
+  { id: 'warzone',       name: 'The War Zone',         url: 'https://www.twz.com/feed',                          perspective: 'INDEPENDENT', country: 'US',        tags: ['military', 'defense'] },
+];
+
+// ─── CONFLICT COLLECTIONS ─────────────────────────────────────
+
+export const CONFLICT_COLLECTIONS: ConflictCollection[] = [
+  {
+    id: 'iran-israel-us',
+    name: 'IRAN–ISRAEL–US CONFLICT',
+    description: 'Operation Epic Fury / Operation Roaring Lion — Multi-perspective monitoring of the Iran-Israel-US military confrontation.',
+    channels: [
+      {
+        label: 'WESTERN WIRE',
+        description: 'Reuters, AP, BBC — closest to neutral, fact-first wire reporting',
+        perspective: 'Western / Wire Services',
+        feedIds: ['reuters', 'ap', 'bbc'],
+        color: '#3b82f6',
+      },
+      {
+        label: 'US / PENTAGON',
+        description: 'Official US military & government sources — CENTCOM, DoD',
+        perspective: 'US Government / Military',
+        feedIds: ['centcom', 'dod', 'fox', 'cnn'],
+        color: '#60a5fa',
+      },
+      {
+        label: 'ISRAELI MEDIA',
+        description: 'Times of Israel, Jerusalem Post, Haaretz, i24 — Israeli domestic reporting',
+        perspective: 'Israeli',
+        feedIds: ['timesofisrael', 'jpost', 'haaretz', 'i24'],
+        color: '#a78bfa',
+      },
+      {
+        label: 'IRANIAN STATE',
+        description: 'Press TV, IRNA, Tehran Times, Tasnim — Iranian government narrative',
+        perspective: 'Iranian State Media',
+        feedIds: ['presstv', 'irna', 'tehrantimes', 'tasnim'],
+        color: '#ef4444',
+      },
+    ],
+  },
+];
+
+// Helper: get feed by id
+export function getFeedById(id: string): RssFeed | undefined {
+  return RSS_FEEDS.find(f => f.id === id);
+}
+
+// Helper: get feeds for a channel
+export function getFeedsForChannel(feedIds: string[]): RssFeed[] {
+  return feedIds.map(id => RSS_FEEDS.find(f => f.id === id)).filter(Boolean) as RssFeed[];
+}

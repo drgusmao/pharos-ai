@@ -28,7 +28,7 @@ export function FeedFilterRail({
   onSevChange, onTypeChange, onVerChange,
 }: Props) {
   return (
-    <div className="w-40 min-w-40 shrink-0 border-r border-[var(--bd)] flex flex-col overflow-hidden">
+    <div className="flex-1 flex flex-col overflow-hidden">
       <div className="panel-header">
         <span className="section-title">Filters</span>
       </div>

@@ -1,5 +1,7 @@
 'use client';
 import { useState, useMemo } from 'react';
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
+import { usePanelLayout } from '@/hooks/use-panel-layout';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { X_POSTS, type XPost } from '@/data/iranXPosts';
 import XPostCard from '@/components/shared/XPostCard';
@@ -10,6 +12,7 @@ export default function SignalsPage() {
   const [sigFilter,  setSigFilter]  = useState<Record<Significance, boolean>>({ BREAKING: true, HIGH: true, STANDARD: true });
   const [acctFilter, setAcctFilter] = useState<Record<AccountType, boolean>>({ military: true, government: true, journalist: true, analyst: true, official: true });
   const [pharosOnly, setPharosOnly] = useState(false);
+  const { defaultLayout, onLayoutChanged } = usePanelLayout({ id: 'signals' });
 
   const filtered = useMemo(() => X_POSTS.filter(p => {
     if (!sigFilter[p.significance as Significance])       return false;
@@ -23,8 +26,9 @@ export default function SignalsPage() {
   const standard = filtered.filter(p => p.significance === 'STANDARD');
 
   return (
-    <div className="flex flex-1 min-w-0 overflow-hidden">
-      <SignalFilterRail
+    <ResizablePanelGroup orientation="horizontal" defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged} className="flex-1 min-w-0">
+      <ResizablePanel id="filters" defaultSize={22} minSize={15} maxSize={35} className="flex flex-col overflow-hidden">
+        <SignalFilterRail
         sigFilter={sigFilter}
         acctFilter={acctFilter}
         pharosOnly={pharosOnly}
@@ -34,8 +38,9 @@ export default function SignalsPage() {
         onAcctChange={(a, v) => setAcctFilter(p => ({ ...p, [a]: v }))}
         onPharosOnly={setPharosOnly}
       />
-
-      <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel id="content" defaultSize={78} minSize={50} className="flex flex-col overflow-hidden">
         <div className="panel-header">
           <span className="section-title">Field Signals — Operation Epic Fury</span>
           <span className="label ml-auto text-[var(--t4)]">PHAROS-CURATED</span>
@@ -68,7 +73,7 @@ export default function SignalsPage() {
             )}
           </div>
         </ScrollArea>
-      </div>
-    </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
   );
 }

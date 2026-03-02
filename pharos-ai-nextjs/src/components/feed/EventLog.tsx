@@ -34,7 +34,7 @@ export function EventLog({ events, selectedId, onSelect }: Props) {
   const grouped = groupByDate(events);
 
   return (
-    <div className="w-[300px] min-w-[300px] shrink-0 border-r border-[var(--bd)] flex flex-col overflow-hidden">
+    <div className="flex-1 flex flex-col overflow-hidden">
       <div className="panel-header justify-between">
         <span className="section-title">Operation Epic Fury</span>
         <Badge variant="outline" className="text-[9px] text-[var(--t4)] border-[var(--bd)]">{events.length}</Badge>

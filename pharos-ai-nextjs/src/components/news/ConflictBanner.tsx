@@ -1,0 +1,59 @@
+'use client';
+
+import type { ConflictCollection } from '@/data/rssFeeds';
+
+interface ConflictBannerProps {
+  collection: ConflictCollection;
+  activeChannel: number;
+  onChannelChange: (idx: number) => void;
+}
+
+export function ConflictBanner({ collection, activeChannel, onChannelChange }: ConflictBannerProps) {
+  return (
+    <div className="border-b border-[var(--bd)] bg-[var(--bg-1)]">
+      {/* Collection header */}
+      <div className="px-5 pt-4 pb-2 flex items-baseline gap-3">
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-[var(--danger)] animate-pulse" />
+          <h2 className="mono text-[13px] font-bold text-[var(--t1)] tracking-[0.12em]">
+            {collection.name}
+          </h2>
+        </div>
+        <span className="text-[10px] text-[var(--t4)]">{collection.description}</span>
+      </div>
+
+      {/* Channel tabs */}
+      <div className="flex px-5 gap-1">
+        {collection.channels.map((ch, idx) => {
+          const active = idx === activeChannel;
+          return (
+            <button
+              key={ch.label}
+              onClick={() => onChannelChange(idx)}
+              className={`
+                px-4 py-2 rounded-t text-[10px] mono font-bold tracking-wider transition-colors border border-b-0
+                ${active
+                  ? 'bg-[var(--bg-app)] text-white border-[var(--bd)]'
+                  : 'bg-transparent text-[var(--t4)] border-transparent hover:text-[var(--t2)] hover:bg-[var(--bg-2)]'
+                }
+              `}
+            >
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-2 h-2 rounded-full shrink-0"
+                  style={{ backgroundColor: ch.color }}
+                />
+                {ch.label}
+              </div>
+              {active && (
+                <div className="text-[8px] font-normal text-[var(--t4)] mt-0.5 text-left">
+                  {ch.perspective}
+                </div>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

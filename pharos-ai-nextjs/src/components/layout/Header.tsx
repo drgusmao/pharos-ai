@@ -12,6 +12,7 @@ const NAV = [
   { label: 'SIGNALS',     href: '/dashboard/signals'      },
   { label: 'BRIEF',       href: '/dashboard/brief'        },
   { label: 'MAP',         href: '/dashboard/map'          },
+  { label: 'NEWS',        href: '/dashboard/news'         },
   { label: 'PREDICTIONS', href: '/dashboard/predictions'  },
 ];
 

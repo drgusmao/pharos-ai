@@ -15,7 +15,7 @@ interface Props {
 
 export function ActorList({ selectedId, onSelect }: Props) {
   return (
-    <div className="w-60 min-w-60 shrink-0 border-r border-[var(--bd)] flex flex-col overflow-hidden">
+    <div className="flex-1 flex flex-col overflow-hidden">
       <div className="panel-header justify-between">
         <span className="section-title">Actors</span>
         <Badge variant="outline" className="text-[9px] text-[var(--t4)] border-[var(--bd)]">{ACTORS.length}</Badge>

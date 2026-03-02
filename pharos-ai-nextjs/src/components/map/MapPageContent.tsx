@@ -17,6 +17,8 @@ import MapDetailPanel from '@/components/map/MapDetailPanel';
 import MapLegend     from '@/components/map/MapLegend';
 import MapFilterPanel from '@/components/map/MapFilterPanel';
 import MapTimeline   from '@/components/map/MapTimeline';
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
+import { usePanelLayout } from '@/hooks/use-panel-layout';
 
 import type { MapViewState, PickingInfo } from '@deck.gl/core';
 import type { StyleSpecification } from 'maplibre-gl';
@@ -50,6 +52,7 @@ export default function FullMapPage() {
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
   const [sidebarOpen,  setSidebarOpen]  = useState(true);
   const [mapStyle,     setMapStyle]     = useState<'dark' | 'satellite'>('dark');
+  const { defaultLayout, onLayoutChanged } = usePanelLayout({ id: 'map', panelIds: ['sidebar', 'canvas'] });
 
   const f = useMapFilters();
 
@@ -76,17 +79,24 @@ export default function FullMapPage() {
   }, []);
 
   return (
-    <div className="flex" style={{ width: '100%', height: '100%', background: 'var(--bg-app)', overflow: 'hidden' }}>
+    <ResizablePanelGroup orientation="horizontal" defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged} className="w-full h-full bg-[var(--bg-app)] overflow-hidden min-w-0">
 
-      <MapSidebar
-        isOpen={sidebarOpen}
-        activeStory={activeStory}
-        onToggle={() => setSidebarOpen(o => !o)}
-        onActivateStory={handleActivateStory}
-        onClearStory={() => setActiveStory(null)}
-      />
+      {sidebarOpen && (
+        <>
+          <ResizablePanel id="sidebar" defaultSize="25%" minSize="15%" maxSize="40%" className="flex flex-col overflow-hidden min-w-[280px]">
+            <MapSidebar
+              isOpen={sidebarOpen}
+              activeStory={activeStory}
+              onToggle={() => setSidebarOpen(o => !o)}
+              onActivateStory={handleActivateStory}
+              onClearStory={() => setActiveStory(null)}
+            />
+          </ResizablePanel>
+          <ResizableHandle />
+        </>
+      )}
 
-      <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+      <ResizablePanel id="canvas" defaultSize="75%" minSize="40%" className="relative overflow-hidden">
         <DeckGL
           viewState={viewState}
           onViewStateChange={({ viewState: vs }) => setViewState(vs as MapViewState)}
@@ -123,7 +133,7 @@ export default function FullMapPage() {
           dataExtent={f.dataExtent} viewExtent={f.viewExtent} onViewExtent={f.setViewExtent}
           timeRange={f.state.timeRange} onTimeRange={f.setTimeRange}
         />
-      </div>
-    </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
   );
 }

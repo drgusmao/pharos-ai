@@ -255,6 +255,22 @@
   /* No-underline links */
   .no-underline { text-decoration: none; color: inherit; }
 
+  /* Resizable panel handles */
+  [data-slot="resizable-handle"] {
+    background: var(--bd) !important;
+    transition: background 0.15s;
+  }
+  [data-slot="resizable-handle"]:hover,
+  [data-slot="resizable-handle"]:active {
+    background: var(--blue) !important;
+  }
+  [data-slot="resizable-handle"][aria-orientation="vertical"] {
+    width: 1px !important;
+  }
+  [data-slot="resizable-handle"][aria-orientation="horizontal"] {
+    height: 1px !important;
+  }
+
   /* Hide map attribution / copyright */
   .maplibregl-ctrl-attrib,
   .maplibregl-ctrl-bottom-right,

@@ -2,6 +2,8 @@
 import { useState, useMemo, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { FileText } from 'lucide-react';
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
+import { usePanelLayout } from '@/hooks/use-panel-layout';
 import { EVENTS, type Severity, type EventType } from '@/data/iranEvents';
 import { FeedFilterRail, ALL_TYPES } from '@/components/feed/FeedFilterRail';
 import { EventLog } from '@/components/feed/EventLog';
@@ -19,6 +21,7 @@ function IntelFeedInner() {
   const [verOnly, setVerOnly] = useState(false);
   const [selId,   setSelId]   = useState<string | null>(initEvent);
   const [tab,     setTab]     = useState<'report' | 'signals'>('report');
+  const { defaultLayout, onLayoutChanged } = usePanelLayout({ id: 'feed', panelIds: ['filters', 'log', 'detail'] });
 
   useEffect(() => { if (initEvent) setSelId(initEvent); }, [initEvent]);
 
@@ -33,27 +36,35 @@ function IntelFeedInner() {
   const selected = EVENTS.find(e => e.id === selId) ?? null;
 
   return (
-    <div className="flex flex-1 min-w-0 overflow-hidden">
-      <FeedFilterRail
-        sevFilter={sevFilter}
-        typeFilter={typeFilter}
-        verOnly={verOnly}
-        totalFiltered={filtered.length}
-        onSevChange={(s, v) => setSevFilter(p => ({ ...p, [s]: v }))}
-        onTypeChange={(t, v) => setTypeFilter(p => ({ ...p, [t]: v }))}
-        onVerChange={setVerOnly}
-      />
-      <EventLog
-        events={filtered}
-        selectedId={selId}
-        onSelect={id => { setSelId(id); if (id) setTab('report'); }}
-      />
-      <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
+    <div className="flex flex-col flex-1 min-h-0 min-w-0 overflow-hidden">
+      <ResizablePanelGroup orientation="horizontal" defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged} className="flex-1 min-h-0 min-w-0 w-full">
+      <ResizablePanel id="filters" defaultSize="15%" minSize="10%" maxSize="25%" className="flex flex-col overflow-hidden min-w-[220px]">
+        <FeedFilterRail
+          sevFilter={sevFilter}
+          typeFilter={typeFilter}
+          verOnly={verOnly}
+          totalFiltered={filtered.length}
+          onSevChange={(s, v) => setSevFilter(p => ({ ...p, [s]: v }))}
+          onTypeChange={(t, v) => setTypeFilter(p => ({ ...p, [t]: v }))}
+          onVerChange={setVerOnly}
+        />
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel id="log" defaultSize="30%" minSize="20%" maxSize="45%" className="flex flex-col overflow-hidden min-w-[320px]">
+        <EventLog
+          events={filtered}
+          selectedId={selId}
+          onSelect={id => { setSelId(id); if (id) setTab('report'); }}
+        />
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel id="detail" defaultSize="55%" minSize="30%" className="flex flex-col overflow-hidden min-w-0">
         {selected
           ? <EventDetail event={selected} tab={tab} onTabChange={setTab} />
           : <EmptyState icon={FileText} message="Select an event" />
         }
-      </div>
+      </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   );
 }

@@ -1418,6 +1418,290 @@ Cyprus — an EU member state — is now effectively under sustained drone attac
     actorResponses: [],
     tags: ['raf-akrotiri', 'cyprus', 'drones', 'intercepted', 'uk', 'day-3'],
   },
+
+  {
+    id:        'evt-038',
+    timestamp: '2026-03-02T10:00:00Z',
+    severity:  'CRITICAL',
+    type:      'ECONOMIC',
+    title:     'QatarEnergy halts all LNG production after Iran attacks on Ras Laffan and Mesaieed',
+    location:  'Ras Laffan / Mesaieed, Qatar',
+    summary:   'QatarEnergy — the world\'s largest LNG producer — announced the suspension of all LNG production after Iranian drone attacks struck its facilities at Ras Laffan Industrial City and Mesaieed Industrial City. The company was set to declare force majeure on its LNG shipments. 82% of QatarEnergy\'s clients are Asian, meaning the shutdown will severely impact energy supplies to Japan, South Korea, China, and India. European gas prices surged on the news. This is the most significant attack on global energy infrastructure since the 1990 Iraqi invasion of Kuwait.',
+    fullContent: `QatarEnergy official statement (March 2): "Due to military attacks on QatarEnergy's operating facilities in Ras Laffan Industrial City and Mesaieed Industrial City in the State of Qatar, QatarEnergy has ceased production of liquefied natural gas (LNG) and associated products."
+
+Ras Laffan Industrial City is the world's largest LNG production hub. QatarEnergy produces approximately 77 million tonnes per annum (MTPA) of LNG — nearly one-third of global LNG supply.
+
+Reuters confirmed: QatarEnergy was set to declare force majeure on its LNG shipments after Iranian drone attacks.
+
+Impact:
+• 82% of QatarEnergy's clients are Asian (Japan, South Korea, China, India, Taiwan).
+• European gas prices surged immediately. TTF benchmark jumped 18%.
+• Combined with Hormuz closure (blocking tanker transit), Qatar's land-based production shutdown, and Saudi Ras Tanura refinery closure — the Gulf is now effectively a no-go zone for energy production AND export.
+• Al Jazeera: "Gas prices soar as QatarEnergy halts LNG production after Iran attacks."
+• CNBC confirmed the attacks struck both Ras Laffan and Mesaieed.
+
+This escalation is particularly significant because Qatar had maintained closer ties to Iran than other Gulf states and was a signatory to the March 2 joint statement condemning Iran. Iran striking Qatari energy infrastructure represents burning the last remaining Gulf diplomatic bridge.`,
+    verified: true,
+    sources: [
+      { name: 'Al Jazeera',          tier: 1, reliability: 95 },
+      { name: 'Reuters',             tier: 1, reliability: 99 },
+      { name: 'CNBC',                tier: 1, reliability: 95 },
+      { name: 'Khaleej Times',       tier: 2, reliability: 88 },
+      { name: 'The Peninsula Qatar', tier: 2, reliability: 88 },
+    ],
+    actorResponses: [
+      { actorId: 'qatar', actorName: 'QatarEnergy', stance: 'NEUTRAL', type: 'STATEMENT', statement: 'Due to military attacks on our operating facilities in Ras Laffan and Mesaieed, QatarEnergy has ceased production of LNG and associated products.' },
+    ],
+    tags: ['qatar', 'lng', 'ras-laffan', 'mesaieed', 'energy', 'force-majeure', 'day-3'],
+  },
+
+  {
+    id:        'evt-039',
+    timestamp: '2026-03-02T13:00:00Z',
+    severity:  'CRITICAL',
+    type:      'POLITICAL',
+    title:     'Hegseth Pentagon briefing: "not endless war", 3-part mission, 4th US KIA confirmed, 1,000+ targets hit',
+    location:  'Pentagon, Washington D.C.',
+    summary:   'Defense Secretary Pete Hegseth and Joint Chiefs Chairman Gen. Dan Caine gave a press briefing at the Pentagon. Hegseth outlined a three-part mission: destroy offensive missile systems, dismantle production, ensure Iran never gets a nuclear weapon. He confirmed a 4th US service member killed and 18 total wounded. Over 1,000 targets struck in first 24 hours, "tens of thousands of pieces of ordnance" delivered. Caine: "This work is just beginning." Hegseth rejected Iraq comparisons — "This is not endless war. This is not Iraq. This is not nation building." He refused to set a timetable: "I would never hang a timeframe." No boots on ground in Iran currently. US Cyber Command and Space Command also involved.',
+    fullContent: `Defense Secretary Pete Hegseth and Chairman of the Joint Chiefs of Staff Gen. Dan Caine held a Pentagon press briefing on Monday, March 2, 2026 — approximately 57 hours into Operation Epic Fury.
+
+Key announcements:
+
+Three-part mission:
+1. Destroy Iran's offensive missile systems
+2. Dismantle missile production capacity
+3. Ensure Tehran never obtains a nuclear weapon
+
+Hegseth: "Our ambitions are not utopian; they are realistic."
+
+Operational details:
+• 1,000+ targets struck in first 24 hours.
+• "Tens of thousands of pieces of ordnance" delivered since operations began.
+• More than 100 aircraft launched at H-hour from land bases and carrier decks in synchronized wave.
+• Fighters, refueling tankers, AWACS, bombers, and unmanned systems moved together.
+• US Navy destroyers fired Tomahawk cruise missiles.
+• US Cyber Command disrupted Iranian radar and communications before and during strikes.
+• US Space Command involved in coordination.
+• Two carrier strike groups operating: USS Gerald R. Ford and USS Abraham Lincoln.
+
+Casualties:
+• 4 US service members killed since operation began (up from 3).
+• 18 total wounded (significant increase from previous 5 seriously wounded figure).
+• One Iranian missile penetrated layered air defenses and hit a fortified tactical operations center.
+• US and partner air defenses have intercepted "hundreds" of ballistic missiles and drones.
+
+On duration: "I would never hang a timeframe. We will execute on the president's terms."
+On Iraq comparison: "This is not endless war. This is not Iraq. This is not nation building."
+On boots on ground: "There are no American boots on the ground inside Iran." Declined to outline future limits: "Why in the world would we tell the enemy what we will or will not do?"
+
+Gen. Caine: "This work is just beginning." Described opening hours as "one of the most complex joint operations in recent memory."
+
+Coalition air defense: Qatar, UAE, Kuwait, Jordan, Saudi Arabia operating alongside US Patriot and THAAD batteries.`,
+    verified: true,
+    sources: [
+      { name: 'Military.com / AP photo',  tier: 1, reliability: 95 },
+      { name: 'Reuters',                   tier: 1, reliability: 99 },
+      { name: 'Fox News',                  tier: 2, reliability: 85 },
+      { name: 'Washington Post',           tier: 1, reliability: 97 },
+    ],
+    actorResponses: [
+      { actorId: 'us', actorName: 'SecDef Hegseth',     stance: 'SUPPORTING', type: 'STATEMENT', statement: 'This is not endless war. This is not Iraq. This is not nation building. Our ambitions are not utopian — they are realistic.' },
+      { actorId: 'us', actorName: 'Gen. Dan Caine (JCS)', stance: 'SUPPORTING', type: 'STATEMENT', statement: 'This work is just beginning. The opening hours were one of the most complex joint operations in recent memory.' },
+    ],
+    tags: ['hegseth', 'pentagon', 'briefing', 'caine', 'us-kia-4', 'not-endless-war', 'day-3'],
+  },
+
+  {
+    id:        'evt-040',
+    timestamp: '2026-03-02T14:00:00Z',
+    severity:  'CRITICAL',
+    type:      'MILITARY',
+    title:     'IDF launches "broad wave" of strikes on "heart of Tehran" — simultaneous Lebanon and Iran operations',
+    location:  'Tehran, Iran / Lebanon',
+    summary:   'The IDF announced an "additional wave of strikes against the Iranian terror regime at the heart of Tehran," guided by IDF intelligence. Simultaneously, the IDF said it was attacking Lebanon and Iran at the same time — a dual-front offensive. Iran\'s Tasnim news agency confirmed fresh explosions across Tehran. Separately, the IDF confirmed they are also striking Hezbollah targets in Beirut\'s southern suburbs, southern Lebanon, and the Bekaa Valley simultaneously with the Tehran strikes. This is the most complex multi-theater operation Israel has ever conducted.',
+    fullContent: `IDF statement (via AFP): "The Israeli Air Force, guided by IDF intelligence, has begun an additional wave of strikes against the Iranian terror regime at the heart of Tehran."
+
+The IDF confirmed it was striking Lebanon and Iran "simultaneously" — a dual-front offensive that has no precedent in Israeli military history.
+
+Iran's semi-official Tasnim news agency confirmed explosions in multiple areas of Tehran.
+
+The Guardian (March 2 live blog): "Israel launches new attacks on 'heart of Tehran'" — alongside images of new explosions over the Iranian capital.
+
+Simultaneous operations:
+• Tehran: IAF strikes on regime targets in central Tehran.
+• Southern Lebanon: IDF striking Hezbollah positions.
+• Dahieh (Beirut): Strikes on Hezbollah's stronghold.
+• Bekaa Valley: IAF targeting Hezbollah infrastructure.
+
+CNN reported IDF strikes hit near the Gandhi Hospital area in Tehran, damaging a state TV communications tower. Two witnesses told Reuters the hospital was badly damaged.
+
+This represents Day 3 of sustained strikes on Tehran — the longest continuous air campaign against a national capital since the 2003 Iraq War. The simultaneous multi-theater nature of the operation (Iran + Lebanon + Gulf defense) is stretching both US and Israeli military resources.`,
+    verified: true,
+    sources: [
+      { name: 'IDF Spokesperson / AFP', tier: 1, reliability: 90 },
+      { name: 'Guardian live blog',      tier: 1, reliability: 95 },
+      { name: 'Times of Israel',         tier: 2, reliability: 88 },
+      { name: 'CNN',                     tier: 1, reliability: 95 },
+      { name: 'Tasnim (semi-official)',   tier: 2, reliability: 70 },
+    ],
+    actorResponses: [
+      { actorId: 'idf', actorName: 'IDF Spokesperson', stance: 'SUPPORTING', type: 'STATEMENT', statement: 'The Israeli Air Force has begun an additional wave of strikes against the Iranian terror regime at the heart of Tehran.' },
+    ],
+    tags: ['tehran', 'heart-of-tehran', 'simultaneous', 'lebanon', 'multi-theater', 'day-3'],
+  },
+
+  {
+    id:        'evt-041',
+    timestamp: '2026-03-02T14:30:00Z',
+    severity:  'HIGH',
+    type:      'POLITICAL',
+    title:     'Trump: "the big wave hasn\'t even happened yet" — doesn\'t rule out boots on ground in Iran',
+    location:  'Washington D.C.',
+    summary:   'President Trump gave interviews to CNN and the New York Post, signaling major escalation ahead. To CNN: "We\'re knocking the crap out of them... the big wave hasn\'t even happened yet." He said the operation was "a little ahead of schedule." To the New York Post: "I don\'t have the yips with respect to boots on the ground — like every president says, \'There will be no boots on the ground.\' I don\'t say it." He left open the possibility of sending ground troops into Iran "if they were necessary." He also said he is not swayed by polling showing disapproval of the strikes.',
+    fullContent: `Trump gave two significant interviews on Monday, March 2:
+
+CNN interview:
+• "We're knocking the crap out of them."
+• "The big wave hasn't even happened yet."
+• "A little ahead of schedule."
+• Left open possibility of ground troops "if they were necessary."
+• Said he's not swayed by polling showing disapproval of strikes.
+
+New York Post interview:
+• "I don't have the yips with respect to boots on the ground — like every president says, 'There will be no boots on the ground.' I don't say it."
+• This is the most explicit signal yet that a ground invasion of Iran is being considered.
+
+Analysis:
+• "The big wave hasn't even happened yet" — combined with Hegseth's "this work is just beginning" and Caine's similar language — suggests a significant escalation is planned in the coming days.
+• The boots on ground comment directly contradicts Hegseth's earlier statement that there are currently no American troops in Iran, but leaves the door open for future deployment.
+• Trump's dismissal of disapproval polling suggests he is committed to the operation regardless of domestic opposition.
+• NBC, Guardian, NYMag all led with the "boots on the ground" headline.`,
+    verified: true,
+    sources: [
+      { name: 'CNN interview',     tier: 1, reliability: 95 },
+      { name: 'New York Post',     tier: 2, reliability: 85 },
+      { name: 'NYT live updates',  tier: 1, reliability: 97 },
+      { name: 'Guardian live blog', tier: 1, reliability: 95 },
+      { name: 'NBC News',          tier: 1, reliability: 95 },
+    ],
+    actorResponses: [
+      { actorId: 'us', actorName: 'President Trump', stance: 'SUPPORTING', type: 'STATEMENT', statement: 'The big wave hasn\'t even happened yet. I don\'t have the yips with respect to boots on the ground.' },
+    ],
+    tags: ['trump', 'boots-on-ground', 'escalation', 'big-wave', 'ground-invasion', 'day-3'],
+  },
+
+  {
+    id:        'evt-042',
+    timestamp: '2026-03-02T12:30:00Z',
+    severity:  'HIGH',
+    type:      'DIPLOMATIC',
+    title:     'Crown Prince MBS vows military force against further Iranian incursions into Saudi airspace',
+    location:  'Riyadh, Saudi Arabia',
+    summary:   'Saudi Crown Prince Mohammed bin Salman, with US backing, vowed to employ military force against further Iranian incursions into Saudi territory. He called Iranian strikes "cowardly" — notably, Iran had targeted Saudi airspace despite Saudi Arabia closing its airspace to US and Israeli attackers. CNN reported MBS\'s vow came with direct US backing. This represents a significant shift: Saudi Arabia moving from passive air defense coordination to threatening active military response against Iran.',
+    fullContent: `CNN reported that Crown Prince Mohammed bin Salman (MBS), with US backing, vowed to employ military force against further Iranian incursions, calling Iranian strikes "cowardly."
+
+Context:
+• Saudi Arabia had closed its airspace to US and Israeli attack aircraft — attempting to maintain a degree of neutrality.
+• Despite this, Iran targeted Saudi territory with missiles and drones, hitting near Riyadh and in the Eastern Province.
+• The Saudi Ministry of Foreign Affairs confirmed strikes targeting both the capital Riyadh and the Eastern Province (home to major oil infrastructure and King Abdulaziz Air Base).
+• Saudi Arabia has officially reported no casualties.
+• However, the Ras Tanura refinery (550K bbl/day) was shut after drone strikes hit the vicinity.
+
+MBS's statement represents a significant posture shift:
+• From: passive air defense participation (intercepting missiles over Saudi territory).
+• To: threatening active military response against Iran.
+• This is the strongest Saudi language against Iran since the 2019 Aramco attacks.
+
+The "with US backing" qualifier from CNN is significant — it suggests Washington is actively building a broader military coalition against Iran, potentially including Saudi offensive action.
+
+Erdogan separately spoke with MBS expressing concern about wider escalation.
+
+Wikipedia (March 2 section): "CNN reported that Crown Prince Salman, with US backing, vowed to employ military force against further Iranian incursions, calling Iranian strikes 'cowardly' due to Saudi airspace being closed to US and Israeli attackers."`,
+    verified: true,
+    sources: [
+      { name: 'CNN',                tier: 1, reliability: 95 },
+      { name: 'Wikipedia aggregation', tier: 2, reliability: 85 },
+      { name: 'Guardian',            tier: 1, reliability: 95 },
+    ],
+    actorResponses: [
+      { actorId: 'saudi', actorName: 'Crown Prince MBS', stance: 'SUPPORTING', type: 'STATEMENT', statement: 'Saudi Arabia will employ military force against further Iranian incursions. These strikes are cowardly — our airspace was closed to US and Israeli forces.' },
+    ],
+    tags: ['mbs', 'saudi', 'military-force', 'coalition', 'airspace', 'day-3'],
+  },
+
+  {
+    id:        'evt-043',
+    timestamp: '2026-03-02T10:30:00Z',
+    severity:  'HIGH',
+    type:      'MILITARY',
+    title:     'IRGC claims: 60 strategic targets, 500 facilities hit; 700+ drones, hundreds of missiles fired in 2 days',
+    location:  'Tehran (statement) / Middle East (targets)',
+    summary:   'The IRGC released a summary of its retaliatory operations over the first two days of the conflict. The Guards claimed they attacked 60 "strategic targets" and 500 US/Israeli military facilities, firing over 700 drones and hundreds of missiles of various types. Separately, Iran claimed 560 US personnel were killed or wounded — a claim firmly rejected by Washington (actual US figures: 4 KIA, 18 wounded). While the IRGC figures are inflated, the scale of Iran\'s response — even discounted — represents the largest retaliatory barrage in Iranian military history.',
+    fullContent: `IRGC statement (via Euronews, Pravda News): "Since the start of the conflict, the brave soldiers of the Iranian armed forces have attacked 60 strategic targets and 500 American military targets and targets of the Zionist regime."
+
+Claimed weapons employed:
+• 700+ drones launched
+• "Hundreds" of ballistic and cruise missiles
+
+Additional Iranian claims:
+• 560 US personnel killed or wounded — Washington firmly rejected this, with CENTCOM confirming 4 KIA and 18 wounded.
+• "All Israeli and US military targets in the Middle East have been struck" — also false per independent reporting.
+
+Assessment:
+• While IRGC claims are systematically inflated (as documented in previous True Promise operations), the underlying scale is real.
+• Iran HAS struck targets in 9+ countries: Bahrain, Iraq, Jordan, Kuwait, Oman, Qatar, Saudi Arabia, UAE, Israel, and Cyprus (UK base).
+• Even discounting by 50-70% (standard IRGC inflation), this represents hundreds of actual missile/drone launches — far exceeding any previous Iranian military operation.
+• CENTCOM's own admission of "hundreds" of intercepted missiles and drones corroborates a massive barrage even if Iran's specific claims are exaggerated.
+• This is the largest Iranian retaliatory operation in history — dwarfing True Promise 1 (April 2024: ~300 drones and missiles) and True Promise 2/3.`,
+    verified: true,
+    sources: [
+      { name: 'Euronews',                     tier: 2, reliability: 88 },
+      { name: 'Pravda News (IRGC statement)',  tier: 3, reliability: 60 },
+      { name: 'SSBCrack (claims analysis)',    tier: 3, reliability: 70 },
+    ],
+    actorResponses: [
+      { actorId: 'irgc', actorName: 'IRGC Statement', stance: 'OPPOSING', type: 'STATEMENT', statement: 'Iranian armed forces have attacked 60 strategic targets and 500 American and Zionist facilities, firing 700+ drones and hundreds of missiles.' },
+    ],
+    tags: ['irgc', 'claims', 'true-promise-4', '700-drones', 'propaganda', 'day-3'],
+  },
+
+  {
+    id:        'evt-044',
+    timestamp: '2026-03-02T08:00:00Z',
+    severity:  'HIGH',
+    type:      'MILITARY',
+    title:     'US/Israel strike Jurf al-Sakher PMF base in Iraq — 2 Kataib Hezbollah fighters killed, 5 wounded',
+    location:  'Jurf al-Sakher (Jurf al-Nasr), Iraq',
+    summary:   'US and Israeli forces targeted the Jurf al-Sakher base in southern Iraq, which houses the Popular Mobilisation Forces (PMF) — mostly Shia fighters — and the Iran-backed Iraqi paramilitary group Kataib Hezbollah. Iraqi state media and sources within Kataib Hezbollah confirmed 2 fighters killed and 5 wounded. Separately, powerful explosions were reported near the US consulate and international airport in Erbil, northern Iraq. This represents the opening of an Iraqi front — the first direct US/Israeli strikes on Iraqi-based Iranian proxies in this conflict.',
+    fullContent: `Al Jazeera confirmed: The US and Israel targeted the Jurf al-Sakher base (also known as Jurf al-Nasr) in southern Iraq.
+
+The base houses:
+• Popular Mobilisation Forces (PMF / Hashd al-Shaabi) — a coalition of mostly Shia fighters, formally part of Iraqi security forces but with strong ties to Iran.
+• Kataib Hezbollah — an Iran-backed Iraqi paramilitary group designated as a terrorist organization by the US.
+
+Casualties:
+• Iraqi state media: 2 fighters killed, 5 wounded.
+• Kataib Hezbollah internal sources confirmed the same figures.
+
+Northern Iraq:
+• Several powerful explosions reported near the US consulate and Erbil International Airport in the semiautonomous Kurdistan Region.
+• Air defenses intercepted drone attacks on Saturday per initial reports.
+• The US is reported to still have troops in the Kurdish region.
+
+Significance:
+• This is the first confirmed US/Israeli strike on Iraqi territory in this conflict.
+• Jurf al-Sakher has been under PMF control since 2014 when it was seized from ISIS.
+• Striking PMF targets inside Iraq risks drawing the Iraqi government into the conflict and could trigger a replay of the 2020 crisis (when the US killed IRGC General Soleimani in Baghdad).
+• The Iraqi government has called for restraint but has not condemned the strikes — a notable silence given Iraq's historical sensitivity to foreign military operations on its soil.`,
+    verified: true,
+    sources: [
+      { name: 'Al Jazeera',              tier: 1, reliability: 95 },
+      { name: 'Iraqi state media',       tier: 2, reliability: 80 },
+      { name: 'Kataib Hezbollah sources', tier: 3, reliability: 70 },
+    ],
+    actorResponses: [],
+    tags: ['iraq', 'pmf', 'kataib-hezbollah', 'jurf-al-sakher', 'proxy', 'day-3'],
+  },
 ];
 
 export const SEV_STYLE: Record<Severity, { bg: string; color: string; dimBg: string }> = {
