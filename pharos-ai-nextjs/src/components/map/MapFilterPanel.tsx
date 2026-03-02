@@ -108,7 +108,7 @@ export default function MapFilterPanel(props: Props) {
       {isExpanded && (
         <div
           className="rounded-sm overflow-y-auto"
-          style={{ background: 'rgba(28,33,39,0.97)', border: '1px solid var(--bd)', minWidth: 340, maxHeight: 'calc(100vh - 120px)' }}
+          style={{ background: 'rgba(28,33,39,0.97)', border: '1px solid var(--bd)', width: 260, maxHeight: 'calc(100vh - 120px)' }}
         >
           <FilterSection title="TYPE" options={facets.types} activeKeys={state.types} onToggle={onToggleType} isColumned />
           <FilterSection title="ACTOR" options={facets.actors} activeKeys={state.actors} onToggle={onToggleActor} isGrouped />

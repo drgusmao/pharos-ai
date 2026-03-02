@@ -159,32 +159,36 @@ export function applyFilters(
     .filter(k => dsMap.has(k))
     .map(k => ({ key: k, label: DATASET_LABELS[k] ?? k, count: dsMap.get(k)!.count, total: dsMap.get(k)!.total }));
 
-  // Build type facets (cross-filter: exclude type from predicate)
+  // Build type facets — SCOPED to active datasets only.
+  // If only "assets" is active, only asset types (CARRIER, AIR_BASE, etc.) appear.
   const typeMap = new Map<string, { total: number; count: number }>();
   for (const { dataset, item } of items) {
+    // Only include types from active datasets — this is the hierarchy link
+    if (!state.datasets.has(dataset)) continue;
     const e = typeMap.get(item.type) ?? { total: 0, count: 0 };
     e.total++;
-    if (state.datasets.has(dataset) && state.actors.has(item.actor) &&
+    if (state.actors.has(item.actor) &&
         state.priorities.has(item.priority) && (!item.status || state.statuses.has(item.status))) {
       e.count++;
     }
     typeMap.set(item.type, e);
   }
   const types: FacetOption[] = [...typeMap.entries()]
-    .filter(([, v]) => v.count > 0 || state.types.has(v.count.toString()))
+    .filter(([, v]) => v.total > 0)
     .map(([k, v]) => ({
       key: k, label: TYPE_META[k]?.label ?? k,
       count: v.count, total: v.total,
       group: TYPE_META[k]?.category,
     }));
 
-  // Build actor facets (cross-filter: exclude actor from predicate)
+  // Build actor facets — scoped to active datasets + types
   const actMap = new Map<string, { total: number; count: number }>();
   for (const { dataset, item } of items) {
+    if (!state.datasets.has(dataset)) continue;
+    if (!state.types.has(item.type)) continue;
     const e = actMap.get(item.actor) ?? { total: 0, count: 0 };
     e.total++;
-    if (state.datasets.has(dataset) && state.types.has(item.type) &&
-        state.priorities.has(item.priority) && (!item.status || state.statuses.has(item.status))) {
+    if (state.priorities.has(item.priority) && (!item.status || state.statuses.has(item.status))) {
       e.count++;
     }
     actMap.set(item.actor, e);
@@ -194,14 +198,15 @@ export function applyFilters(
     color: actorColor(k, actorMeta), group: actorGroup(k, actorMeta),
   }));
 
-  // Build status facets
+  // Build status facets — scoped to active datasets + types
   const statMap = new Map<string, { total: number; count: number }>();
   for (const { dataset, item } of items) {
     if (!item.status) continue;
+    if (!state.datasets.has(dataset)) continue;
+    if (!state.types.has(item.type)) continue;
     const e = statMap.get(item.status) ?? { total: 0, count: 0 };
     e.total++;
-    if (state.datasets.has(dataset) && state.types.has(item.type) &&
-        state.actors.has(item.actor) && state.priorities.has(item.priority)) {
+    if (state.actors.has(item.actor) && state.priorities.has(item.priority)) {
       e.count++;
     }
     statMap.set(item.status, e);

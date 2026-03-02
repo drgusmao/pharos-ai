@@ -136,6 +136,11 @@ export const MISSILE_TRACKS: MissileTrack[] = [
   { id: 'm21', actor: 'IRGC',   priority: 'P2', category: 'KINETIC', type: 'BALLISTIC', status: 'IMPACTED',    from: [48.6799, 31.3342], to: [47.9800, 29.3300], label: 'IRGC Day 2: Ahvaz → Kuwait (Ali Al Salem — 3 US KIA)',              severity: 'CRITICAL' },
   { id: 'm22', actor: 'IRGC',   priority: 'P3', category: 'KINETIC', type: 'DRONE',     status: 'IMPACTED',    from: [51.4,    35.7   ], to: [54.6500, 24.4500], label: 'IRGC Day 2: Drone debris → Abu Dhabi (Etihad Towers area)',         severity: 'HIGH'     },
   { id: 'm23', actor: 'IRGC',   priority: 'P3', category: 'KINETIC', type: 'DRONE',     status: 'IMPACTED',    from: [51.4,    35.7   ], to: [54.5800, 24.4200], label: 'IRGC Day 2: → UAE (AWS data center struck, sparks & fire)',         severity: 'HIGH'     },
+  { id: 'm24', actor: 'IRGC',   priority: 'P2', category: 'KINETIC', type: 'BALLISTIC', status: 'IMPACTED',    from: [56.2666, 27.1832], to: [56.3700, 26.1500], label: 'IRGC Day 2: → Tanker "Skylight" struck in Strait of Hormuz (fire)', severity: 'HIGH'     },
+  { id: 'm25', actor: 'IRGC',   priority: 'P3', category: 'KINETIC', type: 'DRONE',     status: 'IMPACTED',    from: [51.4,    35.7   ], to: [57.7088, 19.6686], label: 'IRGC Day 2: → Oman Duqm port (2 drones — first strike on Oman)',    severity: 'HIGH'     },
+  { id: 'm26', actor: 'IRGC',   priority: 'P3', category: 'KINETIC', type: 'BALLISTIC', status: 'IMPACTED',    from: [51.4,    35.7   ], to: [55.0271, 25.0157], label: 'IRGC Day 2: → Jebel Ali port Dubai (dark smoke over port)',         severity: 'HIGH'     },
+  { id: 'm27', actor: 'IRGC',   priority: 'P2', category: 'KINETIC', type: 'BALLISTIC', status: 'IMPACTED',    from: [51.4,    35.7   ], to: [54.6510, 24.4430], label: 'IRGC Day 2: → Abu Dhabi airport (1 killed, 7 wounded)',             severity: 'HIGH'     },
+  { id: 'm28', actor: 'IRGC',   priority: 'P3', category: 'KINETIC', type: 'BALLISTIC', status: 'IMPACTED',    from: [48.6799, 31.3342], to: [51.5320, 25.2610], label: 'IRGC Day 2: → Doha industrial district (explosions, smoke)',          severity: 'HIGH'     },
 ];
 
 // ─── Targets (Iranian installations) ─────────────────────────────────────────
@@ -298,4 +303,11 @@ export const HEAT_POINTS: HeatPoint[] = [
   { position: [55.3281, 25.2048], weight: 0.5 }, { position: [55.31,   25.20  ], weight: 0.45 },
   // Day 2: Ali Al Salem / Kuwait impacts
   { position: [47.5186, 29.3467], weight: 0.65 }, { position: [47.53,   29.35  ], weight: 0.55 },
+  // Day 2: Jebel Ali port / Hormuz tanker / Oman Duqm
+  { position: [55.0271, 25.0157], weight: 0.5 }, { position: [56.37,   26.15  ], weight: 0.6 },
+  { position: [57.7088, 19.6686], weight: 0.4 },
+  // Day 2: Abu Dhabi airport impact
+  { position: [54.6510, 24.4430], weight: 0.55 }, { position: [54.64,   24.44  ], weight: 0.45 },
+  // Day 2: Doha industrial district
+  { position: [51.5320, 25.2610], weight: 0.45 },
 ];

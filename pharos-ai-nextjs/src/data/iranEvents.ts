@@ -836,6 +836,213 @@ US Embassy Beirut had earlier issued an Emergency Security Alert advising all US
     ],
     tags: ['lebanon', 'hezbollah', 'haifa', 'northern-front', 'ceasefire-violation', 'drones', 'day-2'],
   },
+
+  {
+    id:        'evt-023',
+    timestamp: '2026-03-01T09:00:00Z',
+    severity:  'HIGH',
+    type:      'MILITARY',
+    title:     'CENTCOM confirms first use of LUCAS kamikaze drones — Task Force Scorpion Strike in combat debut',
+    location:  'Iran',
+    summary:   'US Central Command formally acknowledged using LUCAS one-way attack drones in its strikes on Iran — the first operational use of Task Force Scorpion Strike, the Pentagon\'s first dedicated kamikaze drone unit. The low-cost drones, modeled after Iran\'s Shahed-136, were launched from land and targeted Iranian facilities. Separately, CENTCOM released strike footage showing missiles launched from warships, fighter jets taking off from carrier decks, and precision hits on Iranian ballistic missile launchers.',
+    fullContent: `CENTCOM confirmed on X: "CENTCOM's Task Force Scorpion Strike – for the first time in history – is using one-way attack drones in combat during Operation Epic Fury. These low-cost drones, modeled after Iran's Shaheed drones, are now delivering American-made precision destruction."
+
+Bloomberg had previously reported that the Pentagon's first unit dedicated to one-way attack drones was being prepared for deployment against Iran.
+
+Weapon systems confirmed used in Operation Epic Fury (per Reuters, CENTCOM, Pentagon):
+• B-2 Spirit stealth bombers (launched from Diego Garcia)
+• BGM-109 Tomahawk cruise missiles (naval-launched)
+• LUCAS one-way attack drones (Task Force Scorpion Strike)
+• F/A-18 Super Hornets, F-35 Lightning II, F-15E Strike Eagles
+• HIMARS precision rockets
+• JASSM-ER cruise missiles (air-launched)
+• Anthropic's Claude AI was reportedly used in operational planning — Pentagon had $200M AI contract with Anthropic, despite Trump's earlier order to sever ties with the company
+
+Pentagon also used "low-cost, attritable" drones — a concept Iran pioneered with the Shahed family. The irony of using Shahed-derived designs against Iran was noted widely.`,
+    verified: true,
+    sources: [
+      { name: 'CENTCOM (X post)',       tier: 1, reliability: 99 },
+      { name: 'Reuters',                tier: 1, reliability: 99 },
+      { name: 'Jerusalem Post',          tier: 2, reliability: 88 },
+      { name: 'Bloomberg',              tier: 1, reliability: 97 },
+      { name: 'The Guardian',           tier: 1, reliability: 95 },
+    ],
+    actorResponses: [
+      { actorId: 'us', actorName: 'CENTCOM', stance: 'SUPPORTING', type: 'STATEMENT', statement: 'Task Force Scorpion Strike — for the first time in history — is using one-way attack drones in combat during Operation Epic Fury.' },
+    ],
+    tags: ['lucas', 'kamikaze-drones', 'scorpion-strike', 'weapons-systems', 'claude-ai', 'anthropic', 'day-2'],
+  },
+
+  {
+    id:        'evt-024',
+    timestamp: '2026-03-01T12:00:00Z',
+    severity:  'HIGH',
+    type:      'MILITARY',
+    title:     'Gulf civilian damage escalates: 4 killed in UAE, tanker hit in Hormuz, Oman\'s Duqm port struck',
+    location:  'UAE / Strait of Hormuz / Oman',
+    summary:   'Iranian retaliatory strikes continued hitting civilian and commercial targets across the Gulf on Day 2. The UAE Ministry of Defence said 137 missiles and 209 drones were fired at the UAE on Day 1 alone. At Abu Dhabi airport, at least 1 killed and 7 wounded. Three killed in the UAE total — Pakistani, Nepalese, and Bangladeshi nationals. A Palau-flagged oil tanker (Skylight) burst into flames after being hit near the Strait of Hormuz; 20 crew (15 Indian, 5 Iranian) were evacuated. Oman\'s Duqm commercial port was struck by two drones — the first attack on Oman, the conflict mediator. The Gulf Cooperation Council condemned the Oman strike.',
+    fullContent: `Day 2 saw Iranian strikes widen beyond military targets into civilian and commercial infrastructure across the Gulf:
+
+UAE:
+• UAE Ministry of Defence: Iran fired 137 missiles and 209 drones at the UAE on Day 1.
+• Abu Dhabi airport: At least 1 person killed and 7 wounded.
+• 3 total killed in UAE — Pakistani, Nepalese, and Bangladeshi nationals (UAE MOD).
+• Dubai: Palm Jumeirah Fairmont hotel struck by Iranian missile on Day 1 — 4 injured. Burj Al Arab hit by intercepted drone debris — "minor fire" on outer facade.
+• Jebel Ali port: Dark smoke rising over one of the busiest ports in the Middle East.
+• Abu Dhabi: Etihad Towers complex hit by drone debris; woman and child injured.
+• AWS data center in UAE: "impacted by objects" — sparks and fire, power shut off.
+
+Oil tanker — Strait of Hormuz:
+• Palau-flagged tanker "Skylight" struck near Musandam's Khasab Port, 5 nautical miles from shore.
+• Tanker burst into flames. 20-person crew (15 Indian nationals, 5 Iranian nationals) evacuated safely.
+• The tanker was reportedly under US sanctions.
+• Iranian state TV claimed a separate tanker was "sinking" after being struck transiting the Strait.
+
+Oman:
+• Oman News Agency: Duqm commercial port (Al Wusta Governorate) struck by two drones.
+• One expatriate worker injured.
+• This was the first attack on Oman — which had been mediating US-Iran negotiations before the strikes.
+• GCC condemned the attack. Qatar's MFA spokesperson: "This is an attack on the very principle of mediation."
+
+Explosions continued on Day 2 in Dubai, Doha, and Manama. Witnesses in Doha reported loud bangs and thick black smoke rising on the horizon.`,
+    verified: true,
+    sources: [
+      { name: 'Al Jazeera',                 tier: 1, reliability: 95 },
+      { name: 'New York Times',              tier: 1, reliability: 97 },
+      { name: 'Reuters',                     tier: 1, reliability: 99 },
+      { name: 'Oman News Agency',            tier: 2, reliability: 90 },
+      { name: 'Euronews',                    tier: 2, reliability: 88 },
+    ],
+    actorResponses: [
+      { actorId: 'uae',   actorName: 'UAE Ministry of Defence',   stance: 'NEUTRAL', type: 'STATEMENT', statement: '137 missiles and 209 drones were fired at the UAE. Three nationals of Pakistan, Nepal, and Bangladesh have been killed.' },
+      { actorId: 'qatar', actorName: 'Qatar MFA Spokesperson',    stance: 'NEUTRAL', type: 'DIPLOMATIC', statement: 'The strike on Oman is an attack on the very principle of mediation.' },
+    ],
+    tags: ['uae', 'dubai', 'oman', 'duqm', 'tanker', 'hormuz', 'civilian-targets', 'day-2'],
+  },
+
+  {
+    id:        'evt-025',
+    timestamp: '2026-03-01T11:00:00Z',
+    severity:  'HIGH',
+    type:      'POLITICAL',
+    title:     'Qalibaf: "You have crossed our red line" — highest official on camera since strikes; 23 killed in Pakistan protests',
+    location:  'Tehran / Karachi / Skardu, Pakistan',
+    summary:   'Iran\'s parliamentary speaker Mohammad Bagher Qalibaf — the highest-ranking Iranian official to appear on camera since the strikes began — delivered a televised address: "You have crossed our red line and must pay the price. We will deliver such devastating blows that you yourselves will be driven to beg." Separately, outrage spilled over into Pakistan: at least 23 protesters killed in clashes — 10 in Karachi where security guards at the US consulate fired on demonstrators who breached the outer wall, 11 in Skardu, and 2 in Lahore. Protests also erupted in Iraq, with crowds attempting to storm US diplomatic missions.',
+    fullContent: `Iranian domestic politics — Qalibaf statement:
+Mohammad Bagher Qalibaf, Speaker of the Iranian Parliament (Majlis), delivered a televised address on Sunday. He is the highest-ranking Iranian official to appear on camera since the strikes began Saturday.
+
+"You have crossed our red line and must pay the price," he said. "We will deliver such devastating blows that you yourselves will be driven to beg."
+
+Qalibaf called US and Israeli leaders "filthy criminals" — per The Hindu.
+
+Pakistan protests:
+• Karachi: At least 10 people killed and 70+ wounded near the US consulate. Hundreds of Shiite Muslim protesters stormed the outer wall of the consulate on Mai Kolachi Road. Security guards opened fire. Police fired tear gas. (Al Jazeera, AP, Reuters)
+• Skardu (northern Pakistan): 11 killed in clashes near UN offices.
+• Lahore: Shiite Muslims set fire at the US consulate entrance gate. 2 killed.
+• Total: At least 23 killed, 120+ wounded across Pakistan (Reuters, Washington Post).
+
+Iraq:
+• Protests erupted in Baghdad and Basra.
+• Crowds attempted to storm US diplomatic missions.
+• Iraqi government called for restraint.
+
+The attacks on US consulates represent the first direct spillover of the conflict into South Asia, raising concerns about regional destabilization beyond the Middle East.`,
+    verified: true,
+    sources: [
+      { name: 'Al Jazeera',               tier: 1, reliability: 95 },
+      { name: 'Reuters',                   tier: 1, reliability: 99 },
+      { name: 'AP',                        tier: 1, reliability: 98 },
+      { name: 'Washington Post',           tier: 1, reliability: 97 },
+      { name: 'The Hindu',                 tier: 2, reliability: 88 },
+    ],
+    actorResponses: [
+      { actorId: 'iran', actorName: 'Speaker Qalibaf',    stance: 'OPPOSING', type: 'STATEMENT', statement: 'You have crossed our red line and must pay the price. We will deliver such devastating blows that you yourselves will be driven to beg.' },
+    ],
+    tags: ['qalibaf', 'parliament', 'karachi', 'pakistan', 'protests', 'consulate', 'spillover', 'day-2'],
+  },
+
+  {
+    id:        'evt-026',
+    timestamp: '2026-03-01T16:00:00Z',
+    severity:  'HIGH',
+    type:      'DIPLOMATIC',
+    title:     'Starmer/Macron/Merz joint statement: "Iran pursuing scorched earth strategy" — EU3 ready to "take action"',
+    location:  'London / Paris / Berlin',
+    summary:   'UK PM Starmer, French President Macron, and German Chancellor Merz issued a rare joint statement: "We did not participate in these strikes, and we will not join offensive action now. But Iran is pursuing a scorched earth strategy — so we are supporting the collective self-defence of our allies." They warned they would "take steps to defend our interests, potentially through enabling necessary and proportionate defensive action to destroy Iran\'s capability to fire missiles and drones at their source." Starmer separately: "We all remember the mistakes of Iraq. We have learned those lessons. It is my duty to protect British lives." RAF jets flying defensive missions. US authorized to use UK bases (RAF Akrotiri, RAF Fairford) for defensive operations.',
+    fullContent: `The leaders of the UK, France, and Germany (E3) issued a joint statement on March 1:
+
+"We did not participate in these strikes, and we will not join offensive action now."
+
+"But Iran is pursuing a scorched earth strategy, so we are supporting the collective self-defence of our allies and our people in the region."
+
+"Iran must cease its arbitrary military strikes."
+
+"We call on Iran to seek a negotiated solution."
+
+"We will take steps to defend our interests and those of our allies in the region, potentially through enabling necessary and proportionate defensive action to destroy Iran's capability to fire missiles and drones at their source."
+
+The statement was signed by:
+• PM Keir Starmer (UK)
+• President Emmanuel Macron (France)
+• Chancellor Friedrich Merz (Germany)
+
+Starmer's separate statement (gov.uk, 1 March 2026):
+"We all remember the mistakes of Iraq. And we have learned those lessons."
+"It is my duty to protect British lives."
+"Iran's attacks have targeted allies and are threatening our service personnel and civilians across the region."
+
+UK actions:
+• RAF jets are flying defensive missions.
+• US authorized to use RAF Akrotiri (Cyprus) and RAF Fairford for defensive operations.
+• UK characterized its support as defensive — not joining offensive action.
+
+Erdogan separately spoke with MBS, expressing concern that "unless the necessary intervention is made" the conflict could have "serious" regional and global implications.`,
+    verified: true,
+    sources: [
+      { name: 'gov.uk official statement',   tier: 1, reliability: 99 },
+      { name: 'Guardian',                    tier: 1, reliability: 95 },
+      { name: 'BBC',                         tier: 1, reliability: 96 },
+      { name: 'LBC',                         tier: 2, reliability: 88 },
+      { name: 'deutschland.de',              tier: 1, reliability: 95 },
+    ],
+    actorResponses: [
+      { actorId: 'uk',     actorName: 'PM Starmer',           stance: 'NEUTRAL',    type: 'DIPLOMATIC', statement: 'We did not participate in these strikes. But Iran is pursuing a scorched earth strategy. It is my duty to protect British lives.' },
+      { actorId: 'france', actorName: 'President Macron',     stance: 'NEUTRAL',    type: 'DIPLOMATIC', statement: 'We call on Iran to stop these reckless attacks immediately. We will take steps to defend our interests.' },
+      { actorId: 'turkey', actorName: 'President Erdogan',    stance: 'NEUTRAL',    type: 'DIPLOMATIC', statement: 'Unless the necessary intervention is made, this conflict could have serious regional and global implications.' },
+    ],
+    tags: ['e3', 'starmer', 'macron', 'merz', 'eu', 'defensive-action', 'raf', 'day-2'],
+  },
+
+  {
+    id:        'evt-027',
+    timestamp: '2026-03-01T14:00:00Z',
+    severity:  'STANDARD',
+    type:      'INTELLIGENCE',
+    title:     'Pentagon confirms Claude AI used in Iran strike planning despite Trump\'s Anthropic ban',
+    location:  'Washington D.C.',
+    summary:   'The Pentagon used Anthropic\'s Claude AI during the planning and execution of Operation Epic Fury, Reuters reported, citing a source familiar with the situation. This occurred despite Trump\'s earlier order to sever ties with Anthropic. The Guardian reported that Anthropic had refused to allow unrestricted military use of its AI models, particularly for autonomous weapons or mass surveillance. Pentagon had a $200M AI contract with Anthropic. AI was reportedly used for intelligence assessment, target identification, and operational simulations — marking a milestone in AI-integrated military operations.',
+    fullContent: `Reuters: "The Pentagon used artificial intelligence services from Anthropic, including its Claude tools, during its attack on Iran, according to a source familiar with the situation."
+
+The Guardian: "The US military reportedly used Claude, Anthropic's AI model, to inform its attack on Iran despite Donald Trump's decision, announced hours earlier, to sever all ties with the company."
+
+Key details:
+• Pentagon had contracts worth up to $200 million with Anthropic for AI capabilities.
+• Anthropic was among a small group of AI developers (alongside Google and others) awarded Pentagon contracts.
+• The dispute stemmed from Anthropic's "refusal to allow unrestricted military use of its AI models, especially for controversial purposes such as fully autonomous weapons or mass surveillance."
+• AI was integrated in intelligence assessment, target identification, and operational simulations.
+• WION News: "One thing is now very clear: AI has become deeply integrated in US military planning and execution by early 2026."
+
+The use of Claude AI in a major military operation marks a significant milestone — the first confirmed use of a large language model in the planning of a state-on-state military campaign.`,
+    verified: true,
+    sources: [
+      { name: 'Reuters',          tier: 1, reliability: 99 },
+      { name: 'The Guardian',     tier: 1, reliability: 95 },
+      { name: 'WION News',        tier: 2, reliability: 85 },
+      { name: 'Outlook Business', tier: 2, reliability: 85 },
+    ],
+    actorResponses: [],
+    tags: ['ai', 'claude', 'anthropic', 'pentagon', 'military-ai', 'day-2'],
+  },
 ];
 
 export const SEV_STYLE: Record<Severity, { bg: string; color: string; dimBg: string }> = {

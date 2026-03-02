@@ -65,7 +65,23 @@ const INITIAL_STATE = extractInitialState(RAW_DATA);
 export function useMapFilters(): UseMapFiltersReturn {
   const [state, setState] = useState<FilterState>(INITIAL_STATE);
 
-  const toggleDataset  = useCallback((d: string) => setState(p => ({ ...p, datasets:   toggle(p.datasets, d) })), []);
+  // When toggling a dataset ON, auto-enable all types from that dataset
+  const toggleDataset  = useCallback((d: string) => setState(p => {
+    const next = toggle(p.datasets, d);
+    if (next.has(d) && !p.datasets.has(d)) {
+      // Dataset was just enabled — find its types from raw data and add them
+      const datasetItems = {
+        strikes: RAW_DATA.strikes, missiles: RAW_DATA.missiles,
+        targets: RAW_DATA.targets, assets: RAW_DATA.assets, zones: RAW_DATA.zones,
+      }[d] as Array<{ type: string }> | undefined;
+      if (datasetItems) {
+        const types = new Set(p.types);
+        for (const item of datasetItems) types.add(item.type);
+        return { ...p, datasets: next, types };
+      }
+    }
+    return { ...p, datasets: next };
+  }), []);
   const toggleType     = useCallback((t: string) => setState(p => ({ ...p, types:      toggle(p.types, t) })), []);
   const toggleActor    = useCallback((a: string) => setState(p => ({ ...p, actors:     toggle(p.actors, a) })), []);
   const togglePriority = useCallback((p: string) => setState(prev => ({ ...prev, priorities: toggle(prev.priorities, p) })), []);
