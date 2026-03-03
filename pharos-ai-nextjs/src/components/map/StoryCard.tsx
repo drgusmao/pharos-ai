@@ -82,10 +82,10 @@ export default function StoryCard({ story, isOpen, onToggle, onFlyTo }: Props) {
         <div className="flex items-center gap-0">
           <StoryIcon iconName={story.iconName} category={story.category} size={15} boxSize={28} style={{ marginRight: 10 }} />
           <div className="flex-1 min-w-0">
-            <p style={{ fontWeight: 600, fontSize: 13, color: 'var(--t1)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <p style={{ fontWeight: 600, fontSize: 12, color: 'var(--t1)', lineHeight: 1.3 }} className="line-clamp-2">
               {story.title}
             </p>
-            <p style={{ fontSize: 11, color: 'var(--t3)', marginTop: 2 }}>{story.tagline}</p>
+            <p style={{ fontSize: 10, color: 'var(--t3)', marginTop: 2 }} className="truncate">{story.tagline}</p>
           </div>
           <div className="flex items-center gap-1 ml-2 shrink-0">
             <span className="mono" style={{
