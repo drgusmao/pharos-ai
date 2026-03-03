@@ -5,11 +5,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { SectionDivider } from '@/components/shared/SectionDivider';
 import type { Actor } from '@/data/iranActors';
 import type { ConflictDay, ActorDaySnapshot, RecentAction } from '@/types/domain';
-
-const TYPE_C: Record<string, string> = {
-  MILITARY: 'var(--danger)', DIPLOMATIC: 'var(--info)',
-  POLITICAL: 'var(--cyber)', ECONOMIC: 'var(--warning)', INTELLIGENCE: 'var(--t2)',
-};
+import { TYPE_C } from '@/lib/severity-colors';
 
 type Props = {
   actor: Actor;
