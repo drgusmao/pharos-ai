@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 type LegendItem = { shape: 'rect' | 'circle' | 'zone'; color: string; label: string };
 
 const ITEMS: LegendItem[] = [
@@ -21,6 +23,8 @@ const ITEMS: LegendItem[] = [
 type Props = { hasPanel: boolean };
 
 export default function MapLegend({ hasPanel }: Props) {
+  const [isCollapsed, setIsCollapsed] = useState(true);
+
   return (
     <div style={{
       position:      'absolute',
@@ -29,13 +33,31 @@ export default function MapLegend({ hasPanel }: Props) {
       background:    'rgba(28,33,39,0.92)',
       border:        '1px solid var(--bd)',
       borderRadius:  2,
-      padding:       '10px 12px',
-      pointerEvents: 'none',
+      padding:       isCollapsed ? '0' : '10px 12px',
       transition:    'opacity 0.2s',
       opacity:       hasPanel ? 0.4 : 1,
     }}>
-      <p className="label" style={{ color: 'var(--t4)', marginBottom: 6 }}>LEGEND</p>
-      {ITEMS.map(({ shape, color, label }) => (
+      <button
+        onClick={() => setIsCollapsed(v => !v)}
+        className="label"
+        style={{
+          color:       'var(--t4)',
+          cursor:      'pointer',
+          background:  'transparent',
+          border:      'none',
+          padding:     isCollapsed ? '6px 10px' : '0 0 6px 0',
+          display:     'block',
+          width:       '100%',
+          textAlign:   'left',
+          fontSize:    9,
+          fontWeight:  700,
+          letterSpacing: '0.06em',
+        }}
+      >
+        LEGEND {isCollapsed ? '▸' : '▾'}
+      </button>
+
+      {!isCollapsed && ITEMS.map(({ shape, color, label }) => (
         <div key={label} className="flex items-center gap-1.5" style={{ marginBottom: 3, fontSize: 9, color: 'var(--t3)' }}>
           {shape === 'rect'   && <div style={{ width: 12, height: 3,  background: color, flexShrink: 0 }} />}
           {shape === 'circle' && <div style={{ width: 8,  height: 8,  borderRadius: '50%', background: color, flexShrink: 0 }} />}

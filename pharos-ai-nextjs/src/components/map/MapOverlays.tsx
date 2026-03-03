@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { X } from 'lucide-react';
+import { X, PanelLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import StoryIcon from './StoryIcon';
 
@@ -79,10 +79,37 @@ type Props = {
   embedded?: boolean;
 };
 
-export default function MapOverlays({ activeStory, onClearStory, embedded = false }: Props) {
+export default function MapOverlays({ activeStory, onClearStory, sidebarOpen, onToggleSidebar, embedded = false }: Props) {
   return (
     <>
       {!embedded && <BackButton />}
+      {!sidebarOpen && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onToggleSidebar}
+          className="mono h-7 px-2"
+          style={{
+            position:     'absolute',
+            top:          12,
+            left:         embedded ? 12 : 170,
+            background:   'rgba(28,33,39,0.92)',
+            border:       '1px solid var(--bd)',
+            borderRadius: 2,
+            color:        'var(--t3)',
+            fontSize:     10,
+            fontWeight:   700,
+            zIndex:       10,
+            display:      'flex',
+            alignItems:   'center',
+            gap:          4,
+          }}
+          title="Open stories panel"
+        >
+          <PanelLeft size={14} strokeWidth={2} />
+          STORIES
+        </Button>
+      )}
       {activeStory && <ActiveStoryPill story={activeStory} onClear={onClearStory} />}
     </>
   );
