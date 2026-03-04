@@ -13,15 +13,16 @@ export function useLandscapeHeaderVisibility(enabled: boolean, resetKey: string)
   const downAccumRef = useRef(0);
 
   useEffect(() => {
-    if (!enabled) {
-      setVisible(true);
-      return;
-    }
-
-    setVisible(false);
     lastTopRef.current = 0;
     upAccumRef.current = 0;
     downAccumRef.current = 0;
+
+    if (!enabled) {
+      const timer = setTimeout(() => setVisible(true), 0);
+      return () => clearTimeout(timer);
+    }
+
+    const initTimer = setTimeout(() => setVisible(false), 0);
 
     const onScroll = (event: Event) => {
       const custom = event as CustomEvent<{ scrollTop?: number }>;
@@ -47,7 +48,10 @@ export function useLandscapeHeaderVisibility(enabled: boolean, resetKey: string)
     };
 
     window.addEventListener(LANDSCAPE_SCROLL_EVENT, onScroll as EventListener);
-    return () => window.removeEventListener(LANDSCAPE_SCROLL_EVENT, onScroll as EventListener);
+    return () => {
+      clearTimeout(initTimer);
+      window.removeEventListener(LANDSCAPE_SCROLL_EVENT, onScroll as EventListener);
+    };
   }, [enabled, resetKey]);
 
   return visible;

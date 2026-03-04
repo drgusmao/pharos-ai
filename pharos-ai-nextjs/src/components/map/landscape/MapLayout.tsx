@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { MapCanvas } from './MapCanvas';
 import { StoriesScreen } from './StoriesScreen';
 import { StoryDetailScreen } from './StoryDetailScreen';
@@ -49,13 +49,6 @@ export default function LandscapeMapLayout({ ctx }: Props) {
     });
   }, []);
 
-  // When a map feature is selected via Redux (from map click), push detail screen
-  useEffect(() => {
-    if (selectedItem && current.id === 'map') {
-      push({ id: 'detail', item: selectedItem });
-    }
-  }, [selectedItem, current.id, push]);
-
   // ── Handlers ──
 
   const handleOpenStories = useCallback(() => {
@@ -63,8 +56,10 @@ export default function LandscapeMapLayout({ ctx }: Props) {
   }, [push]);
 
   const handleSelectFeature = useCallback(() => {
-    // Feature selection is handled by the useEffect above
-  }, []);
+    if (selectedItem && current.id === 'map') {
+      push({ id: 'detail', item: selectedItem });
+    }
+  }, [selectedItem, current.id, push]);
 
   const handleSelectStory = useCallback((story: MapStory) => {
     activateStory(story);

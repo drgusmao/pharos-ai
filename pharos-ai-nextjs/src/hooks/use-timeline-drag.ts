@@ -24,13 +24,12 @@ export function useTimelineDrag(
   const viewExtentRef = useRef(viewExtent);
   const timeRangeRef = useRef(timeRange);
   const onTimeRangeRef = useRef(onTimeRange);
-  viewExtentRef.current = viewExtent;
-  timeRangeRef.current = timeRange;
-  onTimeRangeRef.current = onTimeRange;
 
-  const [vMin, vMax] = viewExtent;
-  const span = vMax - vMin;
-  const rng = timeRange ?? viewExtent;
+  useEffect(() => {
+    viewExtentRef.current = viewExtent;
+    timeRangeRef.current = timeRange;
+    onTimeRangeRef.current = onTimeRange;
+  }, [viewExtent, timeRange, onTimeRange]);
 
   const toMs = useCallback((clientX: number) => {
     if (!trackRef.current) return viewExtentRef.current[0];
