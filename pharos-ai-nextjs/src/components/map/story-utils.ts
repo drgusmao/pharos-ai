@@ -6,12 +6,24 @@ export type DayGroup = {
   stories: MapStory[];
 };
 
-/** Group stories by local date. Returns groups in chronological order (oldest first).
- *  Callers can .reverse() for newest-first display. */
-export function groupByDay(stories: MapStory[]): DayGroup[] {
-  const sorted = [...stories].sort(
-    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
-  );
+export type GroupByDayOptions = {
+  dayOrder?: 'asc' | 'desc';
+  storyOrder?: 'asc' | 'desc';
+};
+
+function storyTimeMs(story: MapStory): number {
+  const ts = new Date(story.timestamp).getTime();
+  return Number.isFinite(ts) ? ts : 0;
+}
+
+/** Group stories by local date with explicit day + story ordering. */
+export function groupByDay(
+  stories: MapStory[],
+  { dayOrder = 'asc', storyOrder = 'asc' }: GroupByDayOptions = {},
+): DayGroup[] {
+  const sorted = [...stories].sort((a, b) => (
+    storyOrder === 'asc' ? storyTimeMs(a) - storyTimeMs(b) : storyTimeMs(b) - storyTimeMs(a)
+  ));
 
   const groups = new Map<string, MapStory[]>();
   for (const s of sorted) {
@@ -20,7 +32,12 @@ export function groupByDay(stories: MapStory[]): DayGroup[] {
     groups.set(key, [...(groups.get(key) ?? []), s]);
   }
 
-  return [...groups.entries()].map(([date, stories]) => {
+  const orderedDates = [...groups.keys()].sort((a, b) => (
+    dayOrder === 'asc' ? a.localeCompare(b) : b.localeCompare(a)
+  ));
+
+  return orderedDates.map((date) => {
+    const stories = groups.get(date) ?? [];
     const d = new Date(date + 'T12:00:00'); // noon local — avoids DST edge cases
     const mon = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
     const day = String(d.getDate()).padStart(2, '0');

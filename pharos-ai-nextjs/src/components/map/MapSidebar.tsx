@@ -31,20 +31,20 @@ export default function MapSidebar({ isOpen, stories, activeStory, onToggle, onA
   const [expandedDates, setExpandedDates] = useState<Set<string>>(new Set());
   const bodyRef = useRef<HTMLDivElement>(null);
 
-  const sorted = useMemo(
-    () => [...stories].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()),
+  const days = useMemo(
+    () => groupByDay(stories, { dayOrder: 'desc', storyOrder: 'desc' }),
     [stories],
   );
-
-  const days = useMemo(() => groupByDay(sorted).reverse(), [sorted]);
 
   // Auto-expand date group when a story is activated
   useEffect(() => {
     if (!activeStory) return;
     const group = days.find(d => d.stories.some(s => s.id === activeStory.id));
-    if (group && !expandedDates.has(group.date)) {
+    if (!group || expandedDates.has(group.date)) return;
+    const timer = setTimeout(() => {
       setExpandedDates(prev => new Set(prev).add(group.date));
-    }
+    }, 0);
+    return () => clearTimeout(timer);
   }, [activeStory, days, expandedDates]);
 
   // Scroll the active story card into view after the date group expands
@@ -110,7 +110,7 @@ export default function MapSidebar({ isOpen, stories, activeStory, onToggle, onA
 
       {/* Timeline */}
       <StoryTimeline
-        stories={sorted}
+        stories={stories}
         activeId={activeStory?.id ?? null}
         onActivate={(story) => { setOpenStoryId(story.id); onActivateStory(story); }}
       />

@@ -21,7 +21,10 @@ const DAY_W = 80; // px per day column
 // ─── Component ──────────────────────────────────────────────────────────────────
 
 export default function StoryTimeline({ stories, activeId, onActivate }: Props) {
-  const days = useMemo(() => groupByDay(stories), [stories]);
+  const days = useMemo(
+    () => groupByDay(stories, { dayOrder: 'asc', storyOrder: 'asc' }),
+    [stories],
+  );
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollL, setCanScrollL] = useState(false);
   const [canScrollR, setCanScrollR] = useState(false);
