@@ -13,6 +13,11 @@ interface CountryMilData {
   gdpPct: { year: number; value: number }[];
 }
 
+interface WorldBankRow {
+  date: string;
+  value: number | null;
+}
+
 // ─── In-memory cache (24 h TTL) ────────────────────────────────────────────
 
 const cache = new Map<string, CacheEntry>();
@@ -41,14 +46,14 @@ async function fetchIndicator(
   const res = await fetch(url);
   if (!res.ok) return [];
 
-  const json = await res.json();
+  const json: unknown = await res.json();
   // World Bank returns [metadata, dataArray] — dataArray may be null
-  const rows: any[] | null = json?.[1];
+  const rows = Array.isArray(json) && Array.isArray(json[1]) ? (json[1] as WorldBankRow[]) : null;
   if (!rows) return [];
 
   return rows
-    .filter((r: any) => r.value !== null)
-    .map((r: any) => ({ year: Number(r.date), value: Number(r.value) }))
+    .filter((r) => r.value !== null)
+    .map((r) => ({ year: Number(r.date), value: Number(r.value) }))
     .sort((a, b) => a.year - b.year);
 }
 
