@@ -7,10 +7,10 @@
 import 'dotenv/config';
 import { PrismaClient } from '../src/generated/prisma/client.js';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { CONFLICT } from '../data-backup/iran-conflict.js';
-import { ACTORS } from '../data-backup/iran-actors.js';
-import { EVENTS } from '../data-backup/iran-events.js';
-import { X_POSTS } from '../data-backup/iran-x-posts.js';
+import { CONFLICT } from './seed-data/iran-conflict.js';
+import { ACTORS } from './seed-data/iran-actors.js';
+import { EVENTS } from './seed-data/iran-events.js';
+import { X_POSTS } from './seed-data/iran-x-posts.js';
 import {
   STRIKE_ARCS,
   MISSILE_TRACKS,
@@ -18,11 +18,11 @@ import {
   ALLIED_ASSETS,
   THREAT_ZONES,
   HEAT_POINTS,
-} from '../data-backup/map-data.js';
-import { MAP_STORIES } from '../data-backup/map-stories.js';
-import { RSS_FEEDS, CONFLICT_COLLECTIONS } from '../data-backup/rss-feeds.js';
-import { ECONOMIC_INDEXES } from '../data-backup/economic-indexes.js';
-import { MARKET_GROUPS } from '../data-backup/prediction-groups.js';
+} from './seed-data/map-data.js';
+import { MAP_STORIES } from './seed-data/map-stories.js';
+import { RSS_FEEDS, CONFLICT_COLLECTIONS } from './seed-data/rss-feeds.js';
+import { ECONOMIC_INDEXES } from './seed-data/economic-indexes.js';
+import { MARKET_GROUPS } from './seed-data/prediction-groups.js';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
