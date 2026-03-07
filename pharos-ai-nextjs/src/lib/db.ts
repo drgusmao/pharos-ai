@@ -1,7 +1,7 @@
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
-import { databaseUrl } from '@/lib/env';
+import { getDatabaseUrl } from '@/lib/env';
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
@@ -10,7 +10,7 @@ function createPrismaClient() {
   // libpq semantics (encrypt without cert verification) instead of pg v8's
   // default verify-full behavior. No manual ssl config needed.
   const adapter = new PrismaPg({
-    connectionString: databaseUrl,
+    connectionString: getDatabaseUrl(),
   });
   return new PrismaClient({
     adapter,
