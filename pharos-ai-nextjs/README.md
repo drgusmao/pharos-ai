@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <img src="public/logo.svg" alt="Pharos" width="320" />
+</p>
 
-## Getting Started
+<p align="center">
+  Open-source intelligence dashboard tracking the Iran conflict in real time.
+  <br />
+  <a href="https://conflicts.app"><strong>conflicts.app</strong></a>
+</p>
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<!-- TODO: Replace with GIF of the map dashboard -->
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+![Pharos dashboard](public/app_screenshot.png)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Why this exists
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Most [OSINT](https://en.wikipedia.org/wiki/Open-source_intelligence) (open-source intelligence) platforms do a decent job at surfacing individual events, but they fail at painting the full picture of a conflict. You get fragments - a strike here, a statement there - without the connective tissue that makes it possible to actually understand what's happening and why.
 
-## Learn More
+Pharos is built to fix that. Within an hour of exploring the dashboard you can get a comprehensive understanding of the entire conflict - every actor, every escalation chain, every diplomatic response - not just what happened in the last five minutes. It pulls from 30 feeds spanning Western, Iranian, Israeli, Arab, Russian, and Chinese outlets so you see the full picture, not one side of it.
 
-To learn more about Next.js, take a look at the following resources:
+Named after the [Lighthouse of Alexandria](https://en.wikipedia.org/wiki/Lighthouse_of_Alexandria), one of the Seven Wonders of the Ancient World - a beacon that cut through the noise to guide ships safely. That's the idea here.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## What it does
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Live conflict map** - airstrikes, missile tracks, targets, military assets, and threat zones rendered on DeckGL + MapLibre with story-driven playback
+- **Intel signals** - field reports from X/Twitter, news articles, and official statements with source verification
+- **RSS monitor** - 30 feeds from Reuters and AP to Press TV and TASS, each labeled by bias and tier
+- **Event timeline** - every incident tracked with severity, actor responses, and source citations
+- **Actor dossiers** - profiles for every state and non-state actor, with capability snapshots and intelligence assessments
+- **Daily briefs** - situation reports covering the last 24 hours
+- **Economic data** - military spending, GDP, inflation, and armed forces via World Bank
 
-## Deploy on Vercel
+## Tech stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Next.js 16 · React 19 · TypeScript · DeckGL · MapLibre · Prisma 7 · PostgreSQL · Tailwind CSS · Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+[AGPL-3.0-only](LICENSE)
+
+---
+
+<a href="https://conflicts.app">
+  <img src="public/og-image-1200x630.jpg" alt="conflicts.app - live geopolitical intelligence dashboard" width="100%" />
+</a>
